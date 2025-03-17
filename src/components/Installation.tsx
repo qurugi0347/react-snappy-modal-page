@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "@linaria/react";
 import { useTranslation } from "react-i18next";
+import { CodeBlock } from "./CodeBlock";
 
 const InstallationContainer = styled.section`
   padding: 2rem 0;
@@ -60,17 +61,6 @@ const Tab = styled.button<{ active: boolean }>`
   }
 `;
 
-const CodeBlock = styled.pre`
-  background-color: #111827;
-  color: #e5e7eb;
-  padding: 1.5rem;
-  border-radius: 0.375rem;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  overflow-x: auto;
-`;
-
 const UsageSteps = styled.div`
   display: flex;
   flex-direction: column;
@@ -100,6 +90,7 @@ const StepContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
 `;
 
 const StepTitle = styled.h3`
@@ -145,11 +136,16 @@ export const Installation: React.FC = () => {
               {t("installation.pnpm")}
             </Tab>
           </TabsContainer>
-          <CodeBlock>
-            {activeTab === "npm" && "npm install react-snappy-modal"}
-            {activeTab === "yarn" && "yarn add react-snappy-modal"}
-            {activeTab === "pnpm" && "pnpm add react-snappy-modal"}
-          </CodeBlock>
+          <CodeBlock
+            code={
+              activeTab === "npm"
+                ? "npm install react-snappy-modal"
+                : activeTab === "yarn"
+                  ? "yarn add react-snappy-modal"
+                  : "pnpm add react-snappy-modal"
+            }
+            language="bash"
+          />
         </InstallCard>
 
         <UsageSteps>
@@ -170,10 +166,10 @@ export const Installation: React.FC = () => {
               <StepDescription>
                 {t("installation.steps.step2.description")}
               </StepDescription>
-              <CodeBlock>
-                {`import SnappyModal from 'react-snappy-modal';
-import 'react-snappy-modal/dist/index.css';`}
-              </CodeBlock>
+              <CodeBlock
+                code={`import SnappyModal from 'react-snappy-modal';`}
+                language="tsx"
+              />
             </StepContent>
           </StepItem>
 
@@ -184,8 +180,8 @@ import 'react-snappy-modal/dist/index.css';`}
               <StepDescription>
                 {t("installation.steps.step3.description")}
               </StepDescription>
-              <CodeBlock>
-                {`import { SnappyModalProvider } from 'react-snappy-modal';
+              <CodeBlock
+                code={`import { SnappyModalProvider } from 'react-snappy-modal';
 
 function App() {
   return (
@@ -194,7 +190,8 @@ function App() {
     </SnappyModalProvider>
   );
 }`}
-              </CodeBlock>
+                language="tsx"
+              />
             </StepContent>
           </StepItem>
 

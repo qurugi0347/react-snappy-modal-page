@@ -22,7 +22,7 @@ const AppWrapper = styled.div`
 `;
 
 const Container = styled.div`
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 1rem;
 `;

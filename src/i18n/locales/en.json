@@ -82,8 +82,8 @@
         "description": "Install the react-snappy-modal package using your preferred package manager as shown above."
       },
       "step2": {
-        "title": "Import the modal component and styles",
-        "description": "Import the SnappyModal component and CSS styles in your application."
+        "title": "Import the modal component",
+        "description": "Import the SnappyModal component in your application."
       },
       "step3": {
         "title": "Add the SnappyModalProvider",

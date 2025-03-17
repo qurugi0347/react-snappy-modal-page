@@ -86,11 +86,11 @@ export const LanguageSwitcher: React.FC = () => {
   const getCurrentLanguageDisplay = () => {
     switch (currentLanguage) {
       case "en":
-        return t("languageSwitcher.english");
+        return "English";
       case "ko":
-        return t("languageSwitcher.korean");
+        return "한국어";
       default:
-        return t("languageSwitcher.english");
+        return "English";
     }
   };
 
@@ -139,13 +139,13 @@ export const LanguageSwitcher: React.FC = () => {
           active={currentLanguage === "en"}
           onClick={() => changeLanguage("en")}
         >
-          {t("languageSwitcher.english")}
+          English
         </LanguageOption>
         <LanguageOption
           active={currentLanguage === "ko"}
           onClick={() => changeLanguage("ko")}
         >
-          {t("languageSwitcher.korean")}
+          한국어
         </LanguageOption>
       </DropdownMenu>
     </SwitcherContainer>

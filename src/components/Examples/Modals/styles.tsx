@@ -4,7 +4,8 @@ export const ModalWrapper = styled.div`
   background-color: white;
   padding: 2rem;
   border-radius: 0.5rem;
-  max-width: 28rem;
+  max-width: 32rem;
+  min-width: 24rem;
   width: 100%;
 `;
 

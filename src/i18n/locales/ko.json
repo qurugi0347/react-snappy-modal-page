@@ -82,8 +82,8 @@
         "description": "위에 표시된 대로 선호하는 패키지 관리자를 사용하여 React Snappy Modal 패키지를 설치하세요."
       },
       "step2": {
-        "title": "모달 컴포넌트와 스타일 가져오기",
-        "description": "애플리케이션에서 SnappyModal 컴포넌트와 CSS 스타일을 가져옵니다."
+        "title": "모달 컴포넌트 가져오기",
+        "description": "애플리케이션에서 SnappyModal 컴포넌트를 가져옵니다."
       },
       "step3": {
         "title": "SnappyModalProvider 추가하기",
