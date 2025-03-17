@@ -45,6 +45,11 @@ export const SEO: React.FC<SEOProps> = ({
       name: "robots",
       content: "index, follow",
     },
+    {
+      name: "keywords",
+      content:
+        "react modal, react dialog, popup component, modal library, alert dialog, confirm dialog, modal form, promise modal, async modal, typescript modal, react component, UI component, modal popup, lightbox, overlay, react hooks modal",
+    },
   ];
 
   return (
@@ -61,6 +66,8 @@ export const SEO: React.FC<SEOProps> = ({
           "@type": "WebSite",
           name: "React Snappy Modal",
           description: description,
+          keywords:
+            "react modal, react snappy modal, react dialog, popup component, modal library, alert dialog, confirm dialog, modal form, promise modal, async modal, typescript modal",
         })}
       </script>
     </Helmet>
