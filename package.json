@@ -6,7 +6,7 @@
   "scripts": {
     "prepare": "husky install",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix"
   },
