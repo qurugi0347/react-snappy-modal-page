@@ -2,7 +2,7 @@ import { styled } from "@linaria/react";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { Features } from "./components/Features";
-import { Index } from "./components/Examples";
+import { Examples } from "./components/Examples";
 import { Installation } from "./components/Installation";
 import { Usage } from "./components/Usage";
 import { Footer } from "./components/Footer";
@@ -58,7 +58,7 @@ function App() {
           <Main>
             <Hero />
             <Features />
-            <Index />
+            <Examples />
             <Installation />
             <Usage />
           </Main>

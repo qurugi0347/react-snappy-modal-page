@@ -70,8 +70,6 @@
       "button": "Show Form"
     },
     "modalComponents": {
-      "alert": "Alert",
-      "alertContent": "This is a simple alert modal that displays information to the user.",
       "confirmTitle": "Confirm Action",
       "confirmContent": "Are you sure you want to perform this action? This cannot be undone.",
       "formTitle": "Enter Your Name",

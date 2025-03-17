@@ -3,8 +3,10 @@ import { styled } from "@linaria/react";
 import { AlertExample } from "./AlertExample.tsx";
 import { ConfirmExample } from "./ConfirmExample.tsx";
 import { FormExample } from "./FormExample.tsx";
+import { useTranslation } from "react-i18next";
 
 export const Examples: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <ExamplesContainer id="examples">
       <SectionTitle>{t("examples.title")}</SectionTitle>
