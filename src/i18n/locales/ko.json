@@ -68,15 +68,6 @@
       "title": "폼 모달",
       "description": "사용자 입력을 수집하기 위한 모달 폼을 쉽게 만들 수 있습니다. 폼 데이터를 모달의 결과로 전달하여 간단하게 처리할 수 있습니다.",
       "button": "폼 표시"
-    },
-    "modalComponents": {
-      "alert": "알림",
-      "alertContent": "이것은 사용자에게 정보를 표시하는 간단한 알림 모달입니다.",
-      "confirmTitle": "작업 확인",
-      "confirmContent": "이 작업을 수행하시겠습니까? 이 작업은 취소할 수 없습니다.",
-      "formTitle": "이름 입력",
-      "formLabel": "성명",
-      "formPlaceholder": "홍길동"
     }
   },
   "installation": {

@@ -68,13 +68,6 @@
       "title": "Form Modal",
       "description": "Easily create modal forms to collect user input. The form data can be passed as the result of the modal, making it simple to process.",
       "button": "Show Form"
-    },
-    "modalComponents": {
-      "confirmTitle": "Confirm Action",
-      "confirmContent": "Are you sure you want to perform this action? This cannot be undone.",
-      "formTitle": "Enter Your Name",
-      "formLabel": "Full Name",
-      "formPlaceholder": "John Doe"
     }
   },
   "installation": {
