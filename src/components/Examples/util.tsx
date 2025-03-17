@@ -1,9 +1,13 @@
 export function removeImportLines(code: string): string {
-  // import 문을 제거합니다
-  const importRegex = /^import\s+.*?;?\s*$/gm;
+  // 여러 줄에 걸친 import 문을 포함한 모든 import 문을 제거합니다
+  const multilineImportRegex =
+    /^import\s+[\s\S]*?from\s+["'].*?["'].*?;?\s*$/gm;
+  const singlelineImportRegex = /^import\s+.*?;?\s*$/gm;
+
   const codeWithoutImports = code
     .replace(/export /g, "")
-    .replace(importRegex, "");
+    .replace(multilineImportRegex, "")
+    .replace(singlelineImportRegex, "");
 
   // 연속된 빈 줄을 단일 빈 줄로 정리합니다
   const multipleEmptyLinesRegex = /\n\s*\n\s*\n/g;
