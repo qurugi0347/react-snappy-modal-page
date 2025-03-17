@@ -1,0 +1,179 @@
+{
+  "header": {
+    "logo": "React Snappy Modal",
+    "features": "Features",
+    "examples": "Examples",
+    "installation": "Installation",
+    "usage": "Usage",
+    "github": "GitHub"
+  },
+  "hero": {
+    "title": "The Modern React Modal Library",
+    "subtitle": "A lightweight, promise-based modal component for React that makes handling modals simple, intuitive, and type-safe.",
+    "tryNow": "Try it now",
+    "installation": "Installation"
+  },
+  "modal": {
+    "title": "React Snappy Modal",
+    "content": "This is an example of the React Snappy Modal in action. It provides a promise-based API that makes handling modal results easy and intuitive.",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "languageSwitcher": {
+    "english": "English",
+    "korean": "Korean"
+  },
+  "features": {
+    "title": "Features",
+    "subtitle": "React Snappy Modal is designed to make modal management simple and intuitive with a powerful promise-based API.",
+    "promiseBased": {
+      "title": "Promise-based API",
+      "description": "Use async/await with your modals to handle user interactions in a clean, sequential way without callback hell."
+    },
+    "lightweight": {
+      "title": "Lightweight",
+      "description": "Zero dependencies and tiny bundle size to keep your application fast and performant."
+    },
+    "customizable": {
+      "title": "Customizable",
+      "description": "Easily customize the appearance and behavior of your modals with simple configuration options."
+    },
+    "typeSafe": {
+      "title": "Type Safe",
+      "description": "Built with TypeScript to provide excellent type checking and IntelliSense support."
+    },
+    "controlledFlow": {
+      "title": "Controlled Flow",
+      "description": "Control the flow of your application by waiting for user input before proceeding with the next steps."
+    },
+    "react18": {
+      "title": "React 18+ Compatible",
+      "description": "Built to work perfectly with the latest versions of React, including concurrent rendering."
+    }
+  },
+  "examples": {
+    "title": "Examples",
+    "subtitle": "See React Snappy Modal in action with these common modal patterns",
+    "alertModal": {
+      "title": "Alert Modal",
+      "description": "Simple alert modals can be used to display information to the user. The modal returns a promise that resolves when the user closes it.",
+      "button": "Show Alert"
+    },
+    "confirmModal": {
+      "title": "Confirmation Modal",
+      "description": "Confirmation modals let users make decisions. The modal returns the value passed to SnappyModal.close(), making it easy to handle user choices.",
+      "button": "Show Confirm"
+    },
+    "formModal": {
+      "title": "Form Modal",
+      "description": "Easily create modal forms to collect user input. The form data can be passed as the result of the modal, making it simple to process.",
+      "button": "Show Form"
+    },
+    "modalComponents": {
+      "alert": "Alert",
+      "alertContent": "This is a simple alert modal that displays information to the user.",
+      "confirmTitle": "Confirm Action",
+      "confirmContent": "Are you sure you want to perform this action? This cannot be undone.",
+      "formTitle": "Enter Your Name",
+      "formLabel": "Full Name",
+      "formPlaceholder": "John Doe"
+    }
+  },
+  "installation": {
+    "title": "Installation",
+    "subtitle": "Get started with React Snappy Modal in just a few simple steps",
+    "npm": "npm",
+    "yarn": "yarn",
+    "pnpm": "pnpm",
+    "steps": {
+      "step1": {
+        "title": "Install the package",
+        "description": "Install the react-snappy-modal package using your preferred package manager as shown above."
+      },
+      "step2": {
+        "title": "Import the modal component and styles",
+        "description": "Import the SnappyModal component and CSS styles in your application."
+      },
+      "step3": {
+        "title": "Add the SnappyModalProvider",
+        "description": "Wrap your application with the SnappyModalProvider to ensure modals can be displayed anywhere in your app."
+      },
+      "step4": {
+        "title": "Start using modals",
+        "description": "You're all set! Now you can use SnappyModal.show() anywhere in your application to display modals."
+      }
+    }
+  },
+  "usage": {
+    "title": "Usage",
+    "subtitle": "Learn how to effectively use React Snappy Modal in your application",
+    "basicUsage": {
+      "title": "Basic Usage",
+      "description": "React Snappy Modal provides a simple, promise-based API for displaying modals. Here's a basic example:"
+    },
+    "configuringOptions": {
+      "title": "Configuring Modal Options",
+      "description": "You can customize the behavior and appearance of your modals with various options:"
+    },
+    "apiReference": {
+      "title": "API Reference",
+      "methods": {
+        "show": {
+          "name": "SnappyModal.show(component, options?)",
+          "description": "Displays a modal containing the provided React component. Returns a Promise that resolves with the value passed to SnappyModal.close()."
+        },
+        "close": {
+          "name": "SnappyModal.close(value?)",
+          "description": "Closes the currently open modal and resolves the promise returned by SnappyModal.show() with the provided value."
+        },
+        "throw": {
+          "name": "SnappyModal.throw(error?)",
+          "description": "Closes the modal and rejects the promise with the provided error. Useful for handling cancellation or error states."
+        },
+        "isShow": {
+          "name": "SnappyModal.isShow()",
+          "description": "Returns a boolean indicating whether a modal is currently displayed."
+        }
+      }
+    },
+    "options": {
+      "title": "Options",
+      "headings": {
+        "option": "Option",
+        "type": "Type",
+        "default": "Default",
+        "description": "Description"
+      },
+      "allowOutsideClick": {
+        "name": "allowOutsideClick",
+        "type": "boolean",
+        "default": "true",
+        "description": "When true, clicking outside the modal will close it."
+      },
+      "allowScroll": {
+        "name": "allowScroll",
+        "type": "boolean",
+        "default": "false",
+        "description": "When true, the page behind the modal can be scrolled."
+      },
+      "backdrop": {
+        "name": "backdrop",
+        "type": "boolean | string",
+        "default": "true",
+        "description": "Controls the modal backdrop. Set to false to hide backdrop, true for default backdrop, or a string CSS color value for a custom color."
+      },
+      "position": {
+        "name": "position",
+        "type": "string",
+        "default": "'center'",
+        "description": "Position of the modal. Options: 'top-left', 'top-center', 'top-right', 'center-left', 'center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right'."
+      },
+      "zIndex": {
+        "name": "zIndex",
+        "type": "number",
+        "default": "1000",
+        "description": "Z-index for the modal and backdrop."
+      }
+    }
+  }
+}
