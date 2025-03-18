@@ -1,0 +1,170 @@
+{
+  "header": {
+    "logo": "React Snappy Modal",
+    "features": "功能",
+    "examples": "示例",
+    "installation": "安装",
+    "usage": "用法",
+    "github": "GitHub"
+  },
+  "hero": {
+    "title": "现代 React 模态库",
+    "subtitle": "一个轻量级、基于 Promise 的 React 模态组件，使模态处理变得简单、直观且类型安全。",
+    "tryNow": "立即尝试",
+    "installation": "安装"
+  },
+  "modal": {
+    "title": "React Snappy Modal",
+    "content": "这是 React Snappy Modal 实际运行的示例。它提供了一个基于 Promise 的 API，使处理模态结果变得简单直观。",
+    "cancel": "取消",
+    "confirm": "确认"
+  },
+  "languageSwitcher": {
+    "english": "英语",
+    "korean": "韩语"
+  },
+  "features": {
+    "title": "功能",
+    "subtitle": "React Snappy Modal 设计用于通过强大的基于 Promise 的 API 使模态管理变得简单直观。",
+    "promiseBased": {
+      "title": "基于 Promise 的 API",
+      "description": "在模态中使用 async/await 以干净、顺序的方式处理用户交互，避免回调地狱。"
+    },
+    "lightweight": {
+      "title": "轻量级",
+      "description": "零依赖和极小的包大小，保持应用程序快速高效。"
+    },
+    "customizable": {
+      "title": "可定制",
+      "description": "通过简单的配置选项轻松定制模态的外观和行为。"
+    },
+    "typeSafe": {
+      "title": "类型安全",
+      "description": "使用 TypeScript 构建，提供出色的类型检查和智能感知支持。"
+    },
+    "controlledFlow": {
+      "title": "受控流程",
+      "description": "通过等待用户输入后再继续下一步来控制应用程序流程。"
+    },
+    "react18": {
+      "title": "React 18+ 兼容",
+      "description": "专为最新版本的 React 构建，包括并发渲染。"
+    }
+  },
+  "examples": {
+    "title": "示例",
+    "subtitle": "通过这些常见的模态模式查看 React Snappy Modal 的实际运行",
+    "alertModal": {
+      "title": "提示模态框",
+      "description": "简单的提示模态框可用于向用户显示信息。模态框返回一个 Promise，在用户关闭时解决。",
+      "button": "显示提示"
+    },
+    "confirmModal": {
+      "title": "确认模态框",
+      "description": "确认模态框让用户做出决定。模态框返回传递给 SnappyModal.close() 的值，使处理用户选择变得容易。",
+      "button": "显示确认"
+    },
+    "formModal": {
+      "title": "表单模态框",
+      "description": "轻松创建模态表单以收集用户输入。表单数据可以作为模态框的结果传递，使处理变得简单。",
+      "button": "显示表单"
+    }
+  },
+  "installation": {
+    "title": "安装",
+    "subtitle": "通过几个简单步骤开始使用 React Snappy Modal",
+    "npm": "npm",
+    "yarn": "yarn",
+    "pnpm": "pnpm",
+    "steps": {
+      "step1": {
+        "title": "安装包",
+        "description": "使用您首选的包管理器安装 react-snappy-modal 包，如上所示。"
+      },
+      "step2": {
+        "title": "导入模态组件",
+        "description": "在您的应用程序中导入 SnappyModal 组件。"
+      },
+      "step3": {
+        "title": "添加 SnappyModalProvider",
+        "description": "用 SnappyModalProvider 包装您的应用程序，以确保模态可以在应用程序中的任何地方显示。"
+      },
+      "step4": {
+        "title": "开始使用模态",
+        "description": "您已准备就绪！现在，您可以在应用程序的任何地方使用 SnappyModal.show() 来显示模态。"
+      }
+    }
+  },
+  "usage": {
+    "title": "用法",
+    "subtitle": "了解如何在应用程序中有效使用 React Snappy Modal",
+    "basicUsage": {
+      "title": "基本用法",
+      "description": "React Snappy Modal 提供了一个简单的、基于 Promise 的 API 来显示模态。这是一个基本示例："
+    },
+    "configuringOptions": {
+      "title": "配置模态选项",
+      "description": "您可以使用各种选项自定义模态的行为和外观："
+    },
+    "apiReference": {
+      "title": "API 参考",
+      "methods": {
+        "show": {
+          "name": "SnappyModal.show(component, options?)",
+          "description": "显示包含提供的 React 组件的模态。返回一个 Promise，解析为传递给 SnappyModal.close() 的值。"
+        },
+        "close": {
+          "name": "SnappyModal.close(value?)",
+          "description": "关闭当前打开的模态，并使用提供的值解析 SnappyModal.show() 返回的 Promise。"
+        },
+        "throw": {
+          "name": "SnappyModal.throw(error?)",
+          "description": "关闭模态并使用提供的错误拒绝 Promise。用于处理取消或错误状态。"
+        },
+        "isShow": {
+          "name": "SnappyModal.isShow()",
+          "description": "返回一个布尔值，指示当前是否显示模态。"
+        }
+      }
+    },
+    "options": {
+      "title": "选项",
+      "headings": {
+        "option": "选项",
+        "type": "类型",
+        "default": "默认值",
+        "description": "描述"
+      },
+      "allowOutsideClick": {
+        "name": "allowOutsideClick",
+        "type": "boolean",
+        "default": "true",
+        "description": "当为 true 时，点击模态外部将关闭它。"
+      },
+      "allowScroll": {
+        "name": "allowScroll",
+        "type": "boolean",
+        "default": "false",
+        "description": "当为 true 时，模态后面的页面可以滚动。"
+      },
+      "backdrop": {
+        "name": "backdrop",
+        "type": "boolean | string",
+        "default": "true",
+        "description": "控制模态背景。设置为 false 隐藏背景，true 为默认背景，或字符串 CSS 颜色值为自定义颜色。"
+      },
+      "position": {
+        "name": "position",
+        "type": "string",
+        "default": "'center'",
+        "description": "模态的位置。选项：'top-left', 'top-center', 'top-right', 'center-left', 'center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right'。"
+      },
+      "zIndex": {
+        "name": "zIndex",
+        "type": "number",
+        "default": "1000",
+        "description": "模态和背景的 z-index。"
+      }
+    }
+  }
+}

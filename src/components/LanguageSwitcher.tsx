@@ -89,6 +89,8 @@ export const LanguageSwitcher: React.FC = () => {
         return "English";
       case "ko":
         return "한국어";
+      case "zh":
+        return "中文";
       default:
         return "English";
     }
@@ -146,6 +148,12 @@ export const LanguageSwitcher: React.FC = () => {
           onClick={() => changeLanguage("ko")}
         >
           한국어
+        </LanguageOption>
+        <LanguageOption
+          active={currentLanguage === "zh"}
+          onClick={() => changeLanguage("zh")}
+        >
+          中文
         </LanguageOption>
       </DropdownMenu>
     </SwitcherContainer>
