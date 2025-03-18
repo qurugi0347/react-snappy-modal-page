@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://react.snappy-modal.com/sitemap.xml
