@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "@linaria/react";
 import { useTranslation } from "react-i18next";
+import { CodeBlock } from "./CodeBlock.tsx";
 
 const UsageContainer = styled.section`
   padding: 2rem 0;
@@ -50,17 +51,6 @@ const UsageDescription = styled.p`
   margin-bottom: 1.5rem;
 `;
 
-const CodeBlock = styled.pre`
-  background-color: #111827;
-  color: #e5e7eb;
-  padding: 1.5rem;
-  border-radius: 0.375rem;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  overflow-x: auto;
-`;
-
 const ApiTable = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -101,8 +91,8 @@ export const Usage: React.FC = () => {
           <UsageDescription>
             {t("usage.basicUsage.description")}
           </UsageDescription>
-          <CodeBlock>
-            {`import React from 'react';
+          <CodeBlock
+            code={`import React from 'react';
 import SnappyModal from 'react-snappy-modal';
 
 function MyComponent() {
@@ -124,7 +114,7 @@ function MyComponent() {
     <button onClick={showModal}>Open Modal</button>
   );
 }`}
-          </CodeBlock>
+          />
         </UsageCard>
 
         <UsageCard>
@@ -132,8 +122,8 @@ function MyComponent() {
           <UsageDescription>
             {t("usage.configuringOptions.description")}
           </UsageDescription>
-          <CodeBlock>
-            {`// Show a modal with custom options
+          <CodeBlock
+            code={`// Show a modal with custom options
 const showCustomModal = async () => {
   const result = await SnappyModal.show(
     <div className="my-modal">
@@ -155,7 +145,7 @@ const showCustomModal = async () => {
   
   console.log('Modal closed with:', result);
 };`}
-          </CodeBlock>
+          />
         </UsageCard>
 
         <UsageCard>
