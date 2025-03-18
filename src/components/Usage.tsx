@@ -3,81 +3,6 @@ import { styled } from "@linaria/react";
 import { useTranslation } from "react-i18next";
 import { CodeBlock } from "./CodeBlock.tsx";
 
-const UsageContainer = styled.section`
-  padding: 2rem 0;
-  scroll-margin-top: 5rem;
-`;
-
-const SectionTitle = styled.h2`
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 1.5rem;
-  text-align: center;
-`;
-
-const SectionSubtitle = styled.p`
-  font-size: 1.125rem;
-  color: #4b5563;
-  max-width: 600px;
-  margin: 0 auto 3rem auto;
-  text-align: center;
-`;
-
-const UsageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-`;
-
-const UsageCard = styled.div`
-  background-color: #f9fafb;
-  border-radius: 0.5rem;
-  padding: 2rem;
-`;
-
-const UsageTitle = styled.h3`
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 1rem;
-`;
-
-const UsageDescription = styled.p`
-  color: #4b5563;
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-`;
-
-const ApiTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin: 2rem 0;
-`;
-
-const Th = styled.th`
-  text-align: left;
-  padding: 0.75rem;
-  border-bottom: 1px solid #e5e7eb;
-  font-weight: 600;
-  color: #111827;
-`;
-
-const Td = styled.td`
-  padding: 0.75rem;
-  border-bottom: 1px solid #e5e7eb;
-  color: #4b5563;
-  vertical-align: top;
-`;
-
-const MethodName = styled.span`
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  font-weight: 500;
-  color: #111827;
-`;
-
 export const Usage: React.FC = () => {
   const { t } = useTranslation();
 
@@ -253,3 +178,78 @@ const showCustomModal = async () => {
     </UsageContainer>
   );
 };
+
+const UsageContainer = styled.section`
+  padding: 2rem 0;
+  scroll-margin-top: 5rem;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  text-align: center;
+`;
+
+const SectionSubtitle = styled.p`
+  font-size: 1.125rem;
+  color: #4b5563;
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
+  text-align: center;
+`;
+
+const UsageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+`;
+
+const UsageCard = styled.div`
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 2rem;
+`;
+
+const UsageTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+`;
+
+const UsageDescription = styled.p`
+  color: #4b5563;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+`;
+
+const ApiTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+`;
+
+const Th = styled.th`
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+  color: #111827;
+`;
+
+const Td = styled.td`
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  color: #4b5563;
+  vertical-align: top;
+`;
+
+const MethodName = styled.span`
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-weight: 500;
+  color: #111827;
+`;
