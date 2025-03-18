@@ -6,7 +6,6 @@ import { Examples } from "./components/Examples";
 import { Installation } from "./components/Installation";
 import { Usage } from "./components/Usage";
 import { Footer } from "./components/Footer";
-import { SEO } from "./components/SEO";
 
 const AppWrapper = styled.div`
   color: #1f2937;
@@ -49,7 +48,6 @@ const Main = styled.main`
 function App() {
   return (
     <>
-      <SEO />
       <HeaderWrapper>
         <Container>
           <Header />
