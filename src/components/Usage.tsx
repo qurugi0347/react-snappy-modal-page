@@ -104,7 +104,6 @@ export const Usage: React.FC = () => {
           <CodeBlock>
             {`import React from 'react';
 import SnappyModal from 'react-snappy-modal';
-import 'react-snappy-modal/dist/index.css';
 
 function MyComponent() {
   const showModal = async () => {
