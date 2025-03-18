@@ -25,7 +25,7 @@
   },
   "features": {
     "title": "기능",
-    "subtitle": "React Snappy Modal은 강력한 프로미스 기반 API를 통해 모달 관리를 간단하고 직관적으로 만들도록 설계되었습니다.",
+    "subtitle": "React Snappy Modal은 강력한 프로미스 기반 API를 통해\n모달 관리를 간단하고 직관적으로 만들도록 설계되었습니다.",
     "promiseBased": {
       "title": "프로미스 기반 API",
       "description": "모달에서 async/await를 사용하여 콜백 지옥 없이 깔끔하고 순차적인 방식으로 사용자 상호작용을 처리할 수 있습니다."

@@ -3,7 +3,7 @@ import { styled } from "@linaria/react";
 import { AlertExample } from "./AlertExample.tsx";
 import { ConfirmExample } from "./ConfirmExample.tsx";
 import { FormExample } from "./FormExample.tsx";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "../../i18n/i18n";
 
 export const Examples: React.FC = () => {
   const { t } = useTranslation();

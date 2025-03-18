@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "@linaria/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "../i18n/i18n";
 import { CodeBlock } from "./CodeBlock";
 
 const InstallationContainer = styled.section`

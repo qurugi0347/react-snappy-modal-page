@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "@linaria/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "../i18n/i18n";
+import nl2br from "react-br";
 
 const FeaturesContainer = styled.section`
   padding: 2rem 0;
@@ -79,7 +80,7 @@ export const Features: React.FC = () => {
   return (
     <FeaturesContainer id="features">
       <SectionTitle>{t("features.title")}</SectionTitle>
-      <SectionSubtitle>{t("features.subtitle")}</SectionSubtitle>
+      <SectionSubtitle>{nl2br(t("features.subtitle"))}</SectionSubtitle>
       <FeaturesGrid>
         <Feature
           icon={

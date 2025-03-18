@@ -8,7 +8,7 @@ import {
   ExampleTitle,
 } from "./styles.tsx";
 import SnappyModal from "react-snappy-modal";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "../../i18n/i18n";
 import { ConfirmModal } from "./Modals/Confirm";
 import confirmCode from "./Modals/Confirm.tsx?raw";
 import { removeImportLines } from "./util.tsx";
