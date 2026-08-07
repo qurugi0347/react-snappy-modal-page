@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { styled } from "@linaria/react";
-import { useTranslation } from "../i18n/i18n";
+import { normalizeLanguage, useTranslation } from "../i18n/i18n";
 
 const SwitcherContainer = styled.div`
   position: relative;
@@ -75,7 +75,7 @@ export const LanguageSwitcher: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const currentLanguage = i18n.language;
+  const currentLanguage = normalizeLanguage(i18n.language);
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
