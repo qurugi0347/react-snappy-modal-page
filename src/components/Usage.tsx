@@ -19,19 +19,25 @@ export const Usage: React.FC = () => {
           </UsageDescription>
           <CodeBlock
             code={`import React from 'react';
-import SnappyModal from 'react-snappy-modal';
+import SnappyModal, { useCurrentModal } from 'react-snappy-modal';
+
+function MyModal() {
+  const { resolveModal } = useCurrentModal();
+
+  return (
+    <div className="my-modal">
+      <h2>My Modal</h2>
+      <p>This is a basic modal example.</p>
+      <button onClick={() => resolveModal('modal result')}>
+        Close Modal
+      </button>
+    </div>
+  );
+}
 
 function MyComponent() {
   const showModal = async () => {
-    const result = await SnappyModal.show(
-      <div className="my-modal">
-        <h2>My Modal</h2>
-        <p>This is a basic modal example.</p>
-        <button onClick={() => SnappyModal.close('modal result')}>
-          Close Modal
-        </button>
-      </div>
-    );
+    const result = await SnappyModal.show(<MyModal />);
     
     console.log('Modal result:', result);
   };
@@ -49,16 +55,26 @@ function MyComponent() {
             {t("usage.configuringOptions.description")}
           </UsageDescription>
           <CodeBlock
-            code={`// Show a modal with custom options
-const showCustomModal = async () => {
-  const result = await SnappyModal.show(
+            code={`import SnappyModal, { useCurrentModal } from 'react-snappy-modal';
+
+function CustomModal() {
+  const { resolveModal } = useCurrentModal();
+
+  return (
     <div className="my-modal">
       <h2>Custom Modal</h2>
       <p>This modal has custom options.</p>
-      <button onClick={() => SnappyModal.close('result')}>
+      <button onClick={() => resolveModal('result')}>
         Close
       </button>
-    </div>,
+    </div>
+  );
+}
+
+// Show a modal with custom options
+const showCustomModal = async () => {
+  const result = await SnappyModal.show(
+    <CustomModal />,
     {
       // Modal configuration options
       allowOutsideClick: false,  // Prevent closing when clicking backdrop
