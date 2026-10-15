@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@linaria/react";
-import { useTranslation } from "../i18n/i18n";
-import { docRoutes, type DocPage } from "../routes";
+import { currentRoute, useTranslation } from "../i18n/i18n";
+import { docRoutes, localizedPath, type DocPage } from "../routes";
 
 const FooterContainer = styled.footer`
   padding: 3rem 0;
@@ -85,7 +85,10 @@ export const Footer: React.FC = () => {
         </FooterLogo>
         <FooterLinks>
           {(Object.keys(docRoutes) as DocPage[]).map(page => (
-            <FooterLink key={page} href={docRoutes[page]}>
+            <FooterLink
+              key={page}
+              href={localizedPath(docRoutes[page], currentRoute.language)}
+            >
               {t(`docs.${page}.navTitle`)}
             </FooterLink>
           ))}

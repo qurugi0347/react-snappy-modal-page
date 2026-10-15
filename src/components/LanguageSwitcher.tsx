@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { styled } from "@linaria/react";
-import { normalizeLanguage, useTranslation } from "../i18n/i18n";
+import { currentRoute } from "../i18n/i18n";
+import { localizedPath, supportedLanguages } from "../routes";
+
+const languageNames = { en: "English", ko: "한국어", zh: "中文" };
 
 const SwitcherContainer = styled.div`
   position: relative;
@@ -50,7 +53,10 @@ const DropdownMenu = styled.div<{ isOpen: boolean }>`
   overflow: hidden;
 `;
 
-const LanguageOption = styled.button<{ active: boolean }>`
+const LanguageOption = styled.a<{ active: boolean }>`
+  display: block;
+  box-sizing: border-box;
+  text-decoration: none;
   width: 100%;
   text-align: left;
   padding: 0.75rem 1rem;
@@ -72,29 +78,10 @@ const LanguageOption = styled.button<{ active: boolean }>`
 `;
 
 export const LanguageSwitcher: React.FC = () => {
-  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const currentLanguage = normalizeLanguage(i18n.language);
-
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-    setIsOpen(false);
-  };
-
-  // Get display name for current language
-  const getCurrentLanguageDisplay = () => {
-    switch (currentLanguage) {
-      case "en":
-        return "English";
-      case "ko":
-        return "한국어";
-      case "zh":
-        return "中文";
-      default:
-        return "English";
-    }
-  };
+  const currentLanguage = currentRoute.language;
+  const suffix = window.location.search + window.location.hash;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -116,7 +103,7 @@ export const LanguageSwitcher: React.FC = () => {
   return (
     <SwitcherContainer ref={dropdownRef}>
       <DropdownButton onClick={() => setIsOpen(!isOpen)}>
-        {getCurrentLanguageDisplay()}
+        {languageNames[currentLanguage]}
         <DropdownIcon isOpen={isOpen}>
           <svg
             width="16"
@@ -137,24 +124,18 @@ export const LanguageSwitcher: React.FC = () => {
       </DropdownButton>
 
       <DropdownMenu isOpen={isOpen}>
-        <LanguageOption
-          active={currentLanguage === "en"}
-          onClick={() => changeLanguage("en")}
-        >
-          English
-        </LanguageOption>
-        <LanguageOption
-          active={currentLanguage === "ko"}
-          onClick={() => changeLanguage("ko")}
-        >
-          한국어
-        </LanguageOption>
-        <LanguageOption
-          active={currentLanguage === "zh"}
-          onClick={() => changeLanguage("zh")}
-        >
-          中文
-        </LanguageOption>
+        {supportedLanguages.map(language => (
+          <LanguageOption
+            key={language}
+            active={currentLanguage === language}
+            href={localizedPath(currentRoute.path, language) + suffix}
+            hrefLang={language}
+            lang={language}
+            aria-current={currentLanguage === language ? "page" : undefined}
+          >
+            {languageNames[language]}
+          </LanguageOption>
+        ))}
       </DropdownMenu>
     </SwitcherContainer>
   );

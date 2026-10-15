@@ -1163,7 +1163,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.26.10, @babel/runtime@npm:^7.27.6, @babel/runtime@npm:^7.3.1":
+"@babel/runtime@npm:^7.26.10, @babel/runtime@npm:^7.27.6, @babel/runtime@npm:^7.3.1":
   version: 7.28.6
   resolution: "@babel/runtime@npm:7.28.6"
   checksum: 42d8a868c2fc2e9a77927945a6daa7ec03c7ea49e611e0d15442933cdabb12f20e3a6849c729259076c10a4247adec229331d1f94c2d0073ea0979d7853e29fd
@@ -4434,15 +4434,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-browser-languagedetector@npm:^8.0.4":
-  version: 8.2.1
-  resolution: "i18next-browser-languagedetector@npm:8.2.1"
-  dependencies:
-    "@babel/runtime": ^7.23.2
-  checksum: 13aa156dddb1f40742d2216e62270dfadb0745f7a5c254479847bbe6953116992f3b0f0a9dbad781a2f86adbfba3b5de669ec36763239ee32614003b23b7c5c6
-  languageName: node
-  linkType: hard
-
 "i18next@npm:^24.2.3":
   version: 24.2.3
   resolution: "i18next@npm:24.2.3"
@@ -5770,7 +5761,6 @@ __metadata:
     globals: ^15.15.0
     husky: ^9.1.7
     i18next: ^24.2.3
-    i18next-browser-languagedetector: ^8.0.4
     linaria: ^6.3.0
     prettier: ^3.5.3
     puppeteer: ^24.37.5
