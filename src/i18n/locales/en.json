@@ -114,16 +114,24 @@
           "description": "Displays a modal containing the provided React component. Returns a Promise that resolves with the value passed to SnappyModal.close()."
         },
         "close": {
-          "name": "SnappyModal.close(value?)",
-          "description": "Closes the currently open modal and resolves the promise returned by SnappyModal.show() with the provided value."
+          "name": "SnappyModal.close(value?, layerOrId?)",
+          "description": "Closes the modal on the given layer or modal ID (default: layer 0) and resolves its promise with the provided value."
         },
         "throw": {
-          "name": "SnappyModal.throw(error?)",
-          "description": "Closes the modal and rejects the promise with the provided error. Useful for handling cancellation or error states."
+          "name": "SnappyModal.throw(error?, layerOrId?)",
+          "description": "Closes the modal on the given layer or modal ID (default: layer 0) and rejects its promise with the provided error. Useful for cancellation or error states."
         },
         "isShow": {
           "name": "SnappyModal.isShow()",
           "description": "Returns a boolean indicating whether a modal is currently displayed."
+        },
+        "useCurrentModal": {
+          "name": "useCurrentModal()",
+          "description": "Hook for components rendered inside a modal. Returns resolveModal(value) and rejectModal(error), which close that specific modal, along with its layer and modalId."
+        },
+        "useSnappyModalState": {
+          "name": "useSnappyModalState()",
+          "description": "Hook that returns { isShow, modalProgress } and re-renders when a modal opens or closes."
         }
       }
     },
@@ -164,6 +172,39 @@
         "type": "number",
         "default": "1000",
         "description": "Z-index for the modal and backdrop."
+      },
+      "layer": {
+        "name": "layer",
+        "type": "number",
+        "default": "0",
+        "description": "Stacking order. Modals with a higher layer render above lower ones and can be closed with close(value, layer)."
+      },
+      "className": {
+        "name": "className",
+        "type": "string",
+        "default": "-",
+        "description": "Additional class name applied to the modal content wrapper."
+      },
+      "style": {
+        "name": "style",
+        "type": "React.CSSProperties",
+        "default": "-",
+        "description": "Inline style applied to the modal content wrapper."
+      }
+    },
+    "realWorld": {
+      "title": "Real-world Example: Confirm Before Deleting",
+      "description": "Wait for the user's decision, then continue the async flow in the same function. The modal component closes itself with useCurrentModal(), and both Cancel and an outside click produce a falsy result."
+    },
+    "behavior": {
+      "title": "Behavior Details",
+      "items": {
+        "outsideClick": "When allowOutsideClick is true, clicking the backdrop closes the modal and resolves the promise with undefined. Always handle an empty result.",
+        "defaultLayer": "SnappyModal.close() and SnappyModal.throw() target layer 0 by default. Pass a layer number or modal ID as the second argument to close a different modal.",
+        "noTarget": "If no modal exists on the target layer or ID, close() and throw() do nothing.",
+        "layers": "Modals render in ascending layer order. Give a nested modal a higher layer so it appears on top and can be closed independently.",
+        "currentModal": "Inside modal content, useCurrentModal() closes that exact modal regardless of its layer, which is safer than a global close() when several modals are open.",
+        "pending": "The promise stays pending until the modal is closed. Unmounting the component that opened the modal does not cancel it."
       }
     }
   }

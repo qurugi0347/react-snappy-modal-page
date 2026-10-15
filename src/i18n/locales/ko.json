@@ -114,16 +114,24 @@
           "description": "제공된 React 컴포넌트를 포함하는 모달을 표시합니다. SnappyModal.close()에 전달된 값으로 해결되는 Promise를 반환합니다."
         },
         "close": {
-          "name": "SnappyModal.close(value?)",
-          "description": "현재 열려 있는 모달을 닫고 제공된 값으로 SnappyModal.show()가 반환한 프로미스를 해결합니다."
+          "name": "SnappyModal.close(value?, layerOrId?)",
+          "description": "지정한 레이어 또는 모달 ID(기본값: 레이어 0)의 모달을 닫고, 전달한 값으로 프로미스를 해결합니다."
         },
         "throw": {
-          "name": "SnappyModal.throw(error?)",
-          "description": "모달을 닫고 제공된 오류로 프로미스를 거부합니다. 취소 또는 오류 상태를 처리하는 데 유용합니다."
+          "name": "SnappyModal.throw(error?, layerOrId?)",
+          "description": "지정한 레이어 또는 모달 ID(기본값: 레이어 0)의 모달을 닫고, 전달한 오류로 프로미스를 거부합니다. 취소 또는 오류 상태를 처리하는 데 유용합니다."
         },
         "isShow": {
           "name": "SnappyModal.isShow()",
           "description": "현재 모달이 표시되고 있는지 여부를 나타내는 불리언 값을 반환합니다."
+        },
+        "useCurrentModal": {
+          "name": "useCurrentModal()",
+          "description": "모달 내부에서 렌더링되는 컴포넌트용 훅입니다. 해당 모달만 닫는 resolveModal(value), rejectModal(error)와 함께 layer, modalId를 반환합니다."
+        },
+        "useSnappyModalState": {
+          "name": "useSnappyModalState()",
+          "description": "{ isShow, modalProgress }를 반환하며, 모달이 열리거나 닫힐 때 다시 렌더링되는 훅입니다."
         }
       }
     },
@@ -164,6 +172,39 @@
         "type": "number",
         "default": "1000",
         "description": "모달과 배경의 z-index 값입니다."
+      },
+      "layer": {
+        "name": "layer",
+        "type": "number",
+        "default": "0",
+        "description": "쌓임 순서입니다. layer가 높은 모달이 낮은 모달 위에 렌더링되며 close(value, layer)로 닫을 수 있습니다."
+      },
+      "className": {
+        "name": "className",
+        "type": "string",
+        "default": "-",
+        "description": "모달 콘텐츠 래퍼에 추가할 클래스 이름입니다."
+      },
+      "style": {
+        "name": "style",
+        "type": "React.CSSProperties",
+        "default": "-",
+        "description": "모달 콘텐츠 래퍼에 적용할 인라인 스타일입니다."
+      }
+    },
+    "realWorld": {
+      "title": "실무 예제: 삭제 전 확인",
+      "description": "사용자의 선택을 기다린 뒤 같은 함수 안에서 비동기 흐름을 이어갑니다. 모달 컴포넌트는 useCurrentModal()로 스스로 닫히며, 취소와 바깥 클릭은 모두 falsy 결과를 반환합니다."
+    },
+    "behavior": {
+      "title": "동작 세부사항",
+      "items": {
+        "outsideClick": "allowOutsideClick이 true이면 배경을 클릭했을 때 모달이 닫히고 프로미스가 undefined로 해결됩니다. 빈 결과를 항상 처리하세요.",
+        "defaultLayer": "SnappyModal.close()와 SnappyModal.throw()는 기본적으로 레이어 0을 대상으로 합니다. 다른 모달을 닫으려면 두 번째 인자로 레이어 번호나 모달 ID를 전달하세요.",
+        "noTarget": "대상 레이어나 ID에 모달이 없으면 close()와 throw()는 아무 동작도 하지 않습니다.",
+        "layers": "모달은 layer 오름차순으로 렌더링됩니다. 중첩 모달에 더 높은 layer를 지정하면 위에 표시되고 따로 닫을 수 있습니다.",
+        "currentModal": "모달 내부에서 useCurrentModal()을 사용하면 layer와 관계없이 해당 모달만 닫습니다. 여러 모달이 열려 있을 때 전역 close()보다 안전합니다.",
+        "pending": "프로미스는 모달이 닫힐 때까지 대기 상태로 남습니다. 모달을 연 컴포넌트가 언마운트되어도 취소되지 않습니다."
       }
     }
   }

@@ -114,16 +114,24 @@
           "description": "显示包含提供的 React 组件的模态。返回一个 Promise，解析为传递给 SnappyModal.close() 的值。"
         },
         "close": {
-          "name": "SnappyModal.close(value?)",
-          "description": "关闭当前打开的模态，并使用提供的值解析 SnappyModal.show() 返回的 Promise。"
+          "name": "SnappyModal.close(value?, layerOrId?)",
+          "description": "关闭指定层级或模态 ID（默认：第 0 层）上的模态，并用提供的值解析其 Promise。"
         },
         "throw": {
-          "name": "SnappyModal.throw(error?)",
-          "description": "关闭模态并使用提供的错误拒绝 Promise。用于处理取消或错误状态。"
+          "name": "SnappyModal.throw(error?, layerOrId?)",
+          "description": "关闭指定层级或模态 ID（默认：第 0 层）上的模态，并用提供的错误拒绝其 Promise。适用于处理取消或错误状态。"
         },
         "isShow": {
           "name": "SnappyModal.isShow()",
           "description": "返回一个布尔值，指示当前是否显示模态。"
+        },
+        "useCurrentModal": {
+          "name": "useCurrentModal()",
+          "description": "用于在模态内部渲染的组件的 Hook。返回仅关闭该模态的 resolveModal(value) 和 rejectModal(error)，以及其 layer 和 modalId。"
+        },
+        "useSnappyModalState": {
+          "name": "useSnappyModalState()",
+          "description": "返回 { isShow, modalProgress } 的 Hook，在模态打开或关闭时重新渲染。"
         }
       }
     },
@@ -164,6 +172,39 @@
         "type": "number",
         "default": "1000",
         "description": "模态和背景的 z-index。"
+      },
+      "layer": {
+        "name": "layer",
+        "type": "number",
+        "default": "0",
+        "description": "堆叠顺序。layer 较高的模态渲染在较低的模态之上，可通过 close(value, layer) 关闭。"
+      },
+      "className": {
+        "name": "className",
+        "type": "string",
+        "default": "-",
+        "description": "添加到模态内容容器的额外类名。"
+      },
+      "style": {
+        "name": "style",
+        "type": "React.CSSProperties",
+        "default": "-",
+        "description": "应用于模态内容容器的内联样式。"
+      }
+    },
+    "realWorld": {
+      "title": "实战示例：删除前确认",
+      "description": "等待用户做出选择，然后在同一个函数中继续异步流程。模态组件通过 useCurrentModal() 自行关闭，取消和点击外部都会返回假值结果。"
+    },
+    "behavior": {
+      "title": "行为细节",
+      "items": {
+        "outsideClick": "当 allowOutsideClick 为 true 时，点击背景会关闭模态，并以 undefined 解析 Promise。请始终处理空结果。",
+        "defaultLayer": "SnappyModal.close() 和 SnappyModal.throw() 默认作用于第 0 层。要关闭其他模态，请将层级编号或模态 ID 作为第二个参数传入。",
+        "noTarget": "如果目标层级或 ID 上没有模态，close() 和 throw() 不会执行任何操作。",
+        "layers": "模态按 layer 升序渲染。为嵌套模态设置更高的 layer，使其显示在上方并可单独关闭。",
+        "currentModal": "在模态内容中使用 useCurrentModal() 只会关闭该模态，与其 layer 无关。当打开多个模态时，比全局 close() 更安全。",
+        "pending": "在模态关闭之前，Promise 会一直处于等待状态。卸载打开模态的组件不会取消它。"
       }
     }
   }
