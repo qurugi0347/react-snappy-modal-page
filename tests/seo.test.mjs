@@ -83,7 +83,10 @@ function assertPage(document, path, language) {
     );
   }
   assert.deepEqual(
-    document.switcherLinks,
+    document.switcherLinks.map(([language, href]) => [
+      language,
+      new URL(href, siteUrl).pathname,
+    ]),
     expectedAlternates(path)
       .slice(0, 3)
       .map(([language, url]) => [language, new URL(url).pathname]),
@@ -176,13 +179,7 @@ describe("GIVEN: a production build", () => {
     server = await preview({ preview: { host: "127.0.0.1", port: 0 } });
     origin = server.resolvedUrls.local[0];
     browser = await puppeteer.launch({ headless: true });
-    page = await browser.newPage();
-    page.on("pageerror", error => errors.push(error.message));
-    await page.setRequestInterception(true);
-    page.on("request", request => {
-      if (request.url().startsWith(origin)) request.continue();
-      else request.abort();
-    });
+    page = await openPage("en-US");
   });
 
   after(async () => {
@@ -245,49 +242,101 @@ describe("GIVEN: a production build", () => {
     }
   });
 
-  it("WHEN: navigating with conflicting storage and navigator THEN: the URL controls all fifteen live pages", async () => {
-    await page.evaluateOnNewDocument(() => {
-      localStorage.setItem("i18nextLng", "ko-KR");
-      Object.defineProperty(navigator, "language", { get: () => "zh-CN" });
+  // Each scenario gets isolated storage and a fixed browser language.
+  async function openPage(language, stored) {
+    const context = await browser.createBrowserContext();
+    const tab = await context.newPage();
+    tab.on("pageerror", error => errors.push(error.message));
+    await tab.setRequestInterception(true);
+    tab.on("request", request => {
+      if (request.url().startsWith(origin)) request.continue();
+      else request.abort();
     });
+    await tab.evaluateOnNewDocument(language => {
+      Object.defineProperty(navigator, "language", { get: () => language });
+    }, language);
+    if (stored) {
+      await tab.goto(origin + "ko/", { waitUntil: "networkidle0" });
+      await tab.evaluate(
+        stored => localStorage.setItem("i18nextLng", stored),
+        stored,
+      );
+    }
+    return tab;
+  }
+
+  async function visit(tab, url, expectedUrl = url) {
+    await tab.goto(url, { waitUntil: "networkidle0" });
+    await tab.waitForFunction(
+      expectedUrl => location.href === expectedUrl,
+      {},
+      expectedUrl,
+    );
+    await tab.waitForNetworkIdle();
+    return tab.evaluate(extractDocument);
+  }
+
+  it("WHEN: storage and navigator prefer another language THEN: only English URLs move to the matching ko/zh page", async () => {
+    const tab = await openPage("zh-CN", "ko-KR");
+    const hash = "#usage";
     for (const language of supportedLanguages) {
       for (const path of pagePaths) {
-        await page.goto(origin + localizedPath(path, language).slice(1), {
-          waitUntil: "networkidle0",
-        });
-        const document = await page.evaluate(extractDocument);
-        assertPage(document, path, language);
+        const url = origin + localizedPath(path, language).slice(1) + hash;
+        const target = language === "en" ? "ko" : language;
+        const document = await visit(
+          tab,
+          url,
+          origin + localizedPath(path, target).slice(1) + hash,
+        );
+        assertPage(document, path, target);
       }
+    }
+    for (const [navigatorLanguage, stored, expected] of [
+      ["zh-CN", undefined, "zh"],
+      ["ko-KR", "en", "en"],
+      ["en-US", undefined, "en"],
+    ]) {
+      const tab = await openPage(navigatorLanguage, stored);
+      const path = docRoutes.api;
+      const document = await visit(
+        tab,
+        origin + path.slice(1) + "?source=seo#options",
+        origin + localizedPath(path, expected).slice(1) + "?source=seo#options",
+      );
+      assertPage(document, path, expected);
     }
     assert.deepEqual(errors, []);
   });
 
-  it("WHEN: switching languages THEN: keep the document, query and anchor through full navigation", async () => {
+  it("WHEN: switching languages THEN: keep the document, query and anchor and remember the choice", async () => {
+    const tab = await openPage("ko-KR");
     const path = docRoutes.api;
     const suffix = "?source=seo#options";
-    await page.goto(origin + localizedPath(path, "ko").slice(1) + suffix, {
-      waitUntil: "networkidle0",
-    });
-    for (const language of ["zh", "en", "ko"]) {
-      await page.click("header button");
+    await visit(tab, origin + localizedPath(path, "ko").slice(1) + suffix);
+    for (const language of ["zh", "en", "ko", "en"]) {
+      await tab.click("header button");
       await Promise.all([
-        page.waitForNavigation({ waitUntil: "networkidle0" }),
-        page.click(`header a[hreflang="${language}"]`),
+        tab.waitForNavigation({ waitUntil: "networkidle0" }),
+        tab.click(`header a[hreflang="${language}"]`),
       ]);
       assert.equal(
-        page.url(),
+        tab.url(),
         origin + localizedPath(path, language).slice(1) + suffix,
       );
       assert.equal(
-        await page.evaluate(() => document.documentElement.lang),
+        await tab.evaluate(() => document.documentElement.lang),
+        language,
+      );
+      assert.equal(
+        await tab.evaluate(() => localStorage.getItem("i18nextLng")),
         language,
       );
     }
     await Promise.all([
-      page.waitForNavigation({ waitUntil: "networkidle0" }),
-      page.click('header nav a[href="/ko/docs/getting-started/"]'),
+      tab.waitForNavigation({ waitUntil: "networkidle0" }),
+      tab.click('header nav a[href="/docs/getting-started/"]'),
     ]);
-    assert.equal(page.url(), origin + "ko/docs/getting-started/");
+    assert.equal(tab.url(), origin + "docs/getting-started/");
     assert.deepEqual(errors, []);
   });
 

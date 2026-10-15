@@ -57,6 +57,13 @@ export default defineConfig({
       rendererOptions: {
         // Wait until react-helmet-async has written the page head
         renderAfterElementExists: 'link[rel="canonical"][data-rh]',
+        // English URLs redirect for ko/zh browsers, so prerender as en-US
+        pageSetup: page =>
+          page.evaluateOnNewDocument(() =>
+            Object.defineProperty(navigator, "language", {
+              get: () => "en-US",
+            }),
+          ),
       },
     }),
   ],

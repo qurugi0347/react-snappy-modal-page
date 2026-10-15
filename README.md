@@ -13,10 +13,15 @@ uses `/zh/`, including each documentation and guide path:
 | Async confirmation | `/guides/async-confirmation/` | `/ko/guides/async-confirmation/` | `/zh/guides/async-confirmation/` |
 | Modal layers | `/guides/modal-layers/` | `/ko/guides/modal-layers/` | `/zh/guides/modal-layers/` |
 
-The URL is the only language source. Stored preferences and browser language
-do not redirect visitors or change the content served at a URL. The language
-switcher navigates to the same page in the selected language, preserving query
-parameters and anchors. Internal links stay in the current language.
+The URL determines the rendered language; `/ko/` and `/zh/` URLs are never
+redirected. On an unprefixed English URL, the client checks the saved language
+(`localStorage.i18nextLng`), then `navigator.language`; if it is Korean or
+Chinese, it calls `location.replace` to the same page under `/ko/` or `/zh/`,
+preserving query parameters and anchors. The language switcher navigates to the
+same page in the selected language and saves the choice, so choosing English
+stores `en` and stops the redirect. Internal links stay in the current language.
+Prerendering pins `navigator.language` to `en-US`, so built English HTML stays
+English, and crawlers without a ko/zh preference are not redirected.
 
 `src/routes.ts` defines the shared paths and languages used by the app and build.
 Each page has a translated title and description, `html lang`, a self-canonical

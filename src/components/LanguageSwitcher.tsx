@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { styled } from "@linaria/react";
-import { currentRoute } from "../i18n/i18n";
+import { currentRoute, languageStorageKey } from "../i18n/i18n";
 import { localizedPath, supportedLanguages } from "../routes";
 
 const languageNames = { en: "English", ko: "한국어", zh: "中文" };
@@ -132,6 +132,7 @@ export const LanguageSwitcher: React.FC = () => {
             hrefLang={language}
             lang={language}
             aria-current={currentLanguage === language ? "page" : undefined}
+            onClick={() => localStorage.setItem(languageStorageKey, language)}
           >
             {languageNames[language]}
           </LanguageOption>

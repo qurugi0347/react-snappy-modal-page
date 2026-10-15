@@ -8,9 +8,23 @@ import React from "react";
 import en from "./locales/en.json";
 import ko from "./locales/ko.json";
 import zh from "./locales/zh.json";
-import { resolveRoute, supportedLanguages } from "../routes";
+import { localizedPath, resolveRoute, supportedLanguages } from "../routes";
 
+export const languageStorageKey = "i18nextLng";
 export const currentRoute = resolveRoute(window.location.pathname);
+
+// Only unprefixed English URLs follow a saved or browser ko/zh preference.
+if (currentRoute.language === "en" && currentRoute.found) {
+  const preferred = (
+    localStorage.getItem(languageStorageKey) ?? navigator.language
+  ).slice(0, 2);
+  if (preferred === "ko" || preferred === "zh") {
+    const { search, hash } = window.location;
+    window.location.replace(
+      localizedPath(currentRoute.path, preferred) + search + hash,
+    );
+  }
+}
 
 i18n.use(initReactI18next).init({
   lng: currentRoute.language,
