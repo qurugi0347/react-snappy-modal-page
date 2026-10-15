@@ -3,6 +3,35 @@ import { styled } from "@linaria/react";
 import { useTranslation } from "../i18n/i18n";
 import { CodeBlock } from "./CodeBlock.tsx";
 
+const behaviorKeys = [
+  "outsideClick",
+  "defaultLayer",
+  "noTarget",
+  "layers",
+  "currentModal",
+  "pending",
+];
+
+const methods = [
+  ["show", "SnappyModal.show(component, options?)"],
+  ["close", "SnappyModal.close(value?, layerOrId?)"],
+  ["throw", "SnappyModal.throw(error?, layerOrId?)"],
+  ["isShow", "SnappyModal.isShow()"],
+  ["useCurrentModal", "useCurrentModal()"],
+  ["useSnappyModalState", "useSnappyModalState()"],
+];
+
+const options = [
+  ["allowOutsideClick", "boolean", "true"],
+  ["allowScroll", "boolean", "false"],
+  ["backdrop", "boolean | string", "true"],
+  ["position", "string", "'center'"],
+  ["zIndex", "number", "1000"],
+  ["layer", "number", "0"],
+  ["className", "string", "-"],
+  ["style", "React.CSSProperties", "-"],
+];
+
 export const Usage: React.FC = () => {
   const { t } = useTranslation();
 
@@ -74,6 +103,48 @@ const showCustomModal = async () => {
         </UsageCard>
 
         <UsageCard>
+          <UsageTitle>{t("usage.realWorld.title")}</UsageTitle>
+          <UsageDescription>
+            {t("usage.realWorld.description")}
+          </UsageDescription>
+          <CodeBlock
+            code={`import SnappyModal, { useCurrentModal } from 'react-snappy-modal';
+
+function DeleteConfirm({ name }: { name: string }) {
+  const { resolveModal } = useCurrentModal();
+
+  return (
+    <div className="my-modal">
+      <p>Delete "{name}"? This cannot be undone.</p>
+      <button onClick={() => resolveModal(false)}>Cancel</button>
+      <button onClick={() => resolveModal(true)}>Delete</button>
+    </div>
+  );
+}
+
+async function deleteProject(project: { id: string; name: string }) {
+  const confirmed = await SnappyModal.show(
+    <DeleteConfirm name={project.name} />,
+  );
+
+  // Cancel resolves false, an outside click resolves undefined
+  if (!confirmed) return;
+
+  await fetch(\`/api/projects/\${project.id}\`, { method: 'DELETE' });
+}`}
+          />
+        </UsageCard>
+
+        <UsageCard>
+          <UsageTitle>{t("usage.behavior.title")}</UsageTitle>
+          <BehaviorList>
+            {behaviorKeys.map(key => (
+              <li key={key}>{t(`usage.behavior.items.${key}`)}</li>
+            ))}
+          </BehaviorList>
+        </UsageCard>
+
+        <UsageCard>
           <UsageTitle>{t("usage.apiReference.title")}</UsageTitle>
           <ApiTable>
             <thead>
@@ -83,38 +154,14 @@ const showCustomModal = async () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <Td>
-                  <MethodName>
-                    {t("usage.apiReference.methods.show.name")}
-                  </MethodName>
-                </Td>
-                <Td>{t("usage.apiReference.methods.show.description")}</Td>
-              </tr>
-              <tr>
-                <Td>
-                  <MethodName>
-                    {t("usage.apiReference.methods.close.name")}
-                  </MethodName>
-                </Td>
-                <Td>{t("usage.apiReference.methods.close.description")}</Td>
-              </tr>
-              <tr>
-                <Td>
-                  <MethodName>
-                    {t("usage.apiReference.methods.throw.name")}
-                  </MethodName>
-                </Td>
-                <Td>{t("usage.apiReference.methods.throw.description")}</Td>
-              </tr>
-              <tr>
-                <Td>
-                  <MethodName>
-                    {t("usage.apiReference.methods.isShow.name")}
-                  </MethodName>
-                </Td>
-                <Td>{t("usage.apiReference.methods.isShow.description")}</Td>
-              </tr>
+              {methods.map(([key, signature]) => (
+                <tr key={key}>
+                  <Td>
+                    <MethodName>{signature}</MethodName>
+                  </Td>
+                  <Td>{t(`usage.apiReference.methods.${key}.description`)}</Td>
+                </tr>
+              ))}
             </tbody>
           </ApiTable>
 
@@ -129,48 +176,16 @@ const showCustomModal = async () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <Td>
-                  <MethodName>
-                    {t("usage.options.allowOutsideClick.name")}
-                  </MethodName>
-                </Td>
-                <Td>{t("usage.options.allowOutsideClick.type")}</Td>
-                <Td>{t("usage.options.allowOutsideClick.default")}</Td>
-                <Td>{t("usage.options.allowOutsideClick.description")}</Td>
-              </tr>
-              <tr>
-                <Td>
-                  <MethodName>{t("usage.options.allowScroll.name")}</MethodName>
-                </Td>
-                <Td>{t("usage.options.allowScroll.type")}</Td>
-                <Td>{t("usage.options.allowScroll.default")}</Td>
-                <Td>{t("usage.options.allowScroll.description")}</Td>
-              </tr>
-              <tr>
-                <Td>
-                  <MethodName>{t("usage.options.backdrop.name")}</MethodName>
-                </Td>
-                <Td>{t("usage.options.backdrop.type")}</Td>
-                <Td>{t("usage.options.backdrop.default")}</Td>
-                <Td>{t("usage.options.backdrop.description")}</Td>
-              </tr>
-              <tr>
-                <Td>
-                  <MethodName>{t("usage.options.position.name")}</MethodName>
-                </Td>
-                <Td>{t("usage.options.position.type")}</Td>
-                <Td>{t("usage.options.position.default")}</Td>
-                <Td>{t("usage.options.position.description")}</Td>
-              </tr>
-              <tr>
-                <Td>
-                  <MethodName>{t("usage.options.zIndex.name")}</MethodName>
-                </Td>
-                <Td>{t("usage.options.zIndex.type")}</Td>
-                <Td>{t("usage.options.zIndex.default")}</Td>
-                <Td>{t("usage.options.zIndex.description")}</Td>
-              </tr>
+              {options.map(([key, type, defaultValue]) => (
+                <tr key={key}>
+                  <Td>
+                    <MethodName>{key}</MethodName>
+                  </Td>
+                  <Td>{type}</Td>
+                  <Td>{defaultValue}</Td>
+                  <Td>{t(`usage.options.${key}.description`)}</Td>
+                </tr>
+              ))}
             </tbody>
           </ApiTable>
         </UsageCard>
@@ -225,6 +240,15 @@ const UsageDescription = styled.p`
   color: #4b5563;
   line-height: 1.5;
   margin-bottom: 1.5rem;
+`;
+
+const BehaviorList = styled.ul`
+  color: #4b5563;
+  line-height: 1.6;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 `;
 
 const ApiTable = styled.table`
