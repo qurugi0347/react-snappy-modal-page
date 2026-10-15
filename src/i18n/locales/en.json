@@ -110,27 +110,21 @@
       "title": "API Reference",
       "methods": {
         "show": {
-          "name": "SnappyModal.show(component, options?)",
           "description": "Displays a modal containing the provided React component. Returns a Promise that resolves with the value passed to SnappyModal.close()."
         },
         "close": {
-          "name": "SnappyModal.close(value?, layerOrId?)",
           "description": "Closes the modal on the given layer or modal ID (default: layer 0) and resolves its promise with the provided value."
         },
         "throw": {
-          "name": "SnappyModal.throw(error?, layerOrId?)",
           "description": "Closes the modal on the given layer or modal ID (default: layer 0) and rejects its promise with the provided error. Useful for cancellation or error states."
         },
         "isShow": {
-          "name": "SnappyModal.isShow()",
           "description": "Returns a boolean indicating whether a modal is currently displayed."
         },
         "useCurrentModal": {
-          "name": "useCurrentModal()",
           "description": "Hook for components rendered inside a modal. Returns resolveModal(value) and rejectModal(error), which close that specific modal, along with its layer and modalId."
         },
         "useSnappyModalState": {
-          "name": "useSnappyModalState()",
           "description": "Hook that returns { isShow, modalProgress } and re-renders when a modal opens or closes."
         }
       }
@@ -144,51 +138,27 @@
         "description": "Description"
       },
       "allowOutsideClick": {
-        "name": "allowOutsideClick",
-        "type": "boolean",
-        "default": "true",
         "description": "When true, clicking outside the modal will close it."
       },
       "allowScroll": {
-        "name": "allowScroll",
-        "type": "boolean",
-        "default": "false",
         "description": "When true, the page behind the modal can be scrolled."
       },
       "backdrop": {
-        "name": "backdrop",
-        "type": "boolean | string",
-        "default": "true",
         "description": "Controls the modal backdrop. Set to false to hide backdrop, true for default backdrop, or a string CSS color value for a custom color."
       },
       "position": {
-        "name": "position",
-        "type": "string",
-        "default": "'center'",
         "description": "Position of the modal. Options: 'top-left', 'top-center', 'top-right', 'center-left', 'center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right'."
       },
       "zIndex": {
-        "name": "zIndex",
-        "type": "number",
-        "default": "1000",
         "description": "Z-index for the modal and backdrop."
       },
       "layer": {
-        "name": "layer",
-        "type": "number",
-        "default": "0",
         "description": "Stacking order. Modals with a higher layer render above lower ones and can be closed with close(value, layer)."
       },
       "className": {
-        "name": "className",
-        "type": "string",
-        "default": "-",
         "description": "Additional class name applied to the modal content wrapper."
       },
       "style": {
-        "name": "style",
-        "type": "React.CSSProperties",
-        "default": "-",
         "description": "Inline style applied to the modal content wrapper."
       }
     },

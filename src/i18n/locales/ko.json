@@ -110,27 +110,21 @@
       "title": "API 참조",
       "methods": {
         "show": {
-          "name": "SnappyModal.show(component, options?)",
           "description": "제공된 React 컴포넌트를 포함하는 모달을 표시합니다. SnappyModal.close()에 전달된 값으로 해결되는 Promise를 반환합니다."
         },
         "close": {
-          "name": "SnappyModal.close(value?, layerOrId?)",
           "description": "지정한 레이어 또는 모달 ID(기본값: 레이어 0)의 모달을 닫고, 전달한 값으로 프로미스를 해결합니다."
         },
         "throw": {
-          "name": "SnappyModal.throw(error?, layerOrId?)",
           "description": "지정한 레이어 또는 모달 ID(기본값: 레이어 0)의 모달을 닫고, 전달한 오류로 프로미스를 거부합니다. 취소 또는 오류 상태를 처리하는 데 유용합니다."
         },
         "isShow": {
-          "name": "SnappyModal.isShow()",
           "description": "현재 모달이 표시되고 있는지 여부를 나타내는 불리언 값을 반환합니다."
         },
         "useCurrentModal": {
-          "name": "useCurrentModal()",
           "description": "모달 내부에서 렌더링되는 컴포넌트용 훅입니다. 해당 모달만 닫는 resolveModal(value), rejectModal(error)와 함께 layer, modalId를 반환합니다."
         },
         "useSnappyModalState": {
-          "name": "useSnappyModalState()",
           "description": "{ isShow, modalProgress }를 반환하며, 모달이 열리거나 닫힐 때 다시 렌더링되는 훅입니다."
         }
       }
@@ -144,51 +138,27 @@
         "description": "설명"
       },
       "allowOutsideClick": {
-        "name": "allowOutsideClick",
-        "type": "boolean",
-        "default": "true",
         "description": "true일 때 모달 외부를 클릭하면 모달이 닫힙니다."
       },
       "allowScroll": {
-        "name": "allowScroll",
-        "type": "boolean",
-        "default": "false",
         "description": "true일 때 모달 뒤의 페이지를 스크롤할 수 있습니다."
       },
       "backdrop": {
-        "name": "backdrop",
-        "type": "boolean | string",
-        "default": "true",
         "description": "모달 배경을 제어합니다. false로 설정하면 배경이 숨겨지고, true로 설정하면 기본 배경이 표시되며, 문자열 CSS 색상 값을 지정하면 사용자 정의 색상이 적용됩니다."
       },
       "position": {
-        "name": "position",
-        "type": "string",
-        "default": "'center'",
         "description": "모달의 위치입니다. 옵션: 'top-left', 'top-center', 'top-right', 'center-left', 'center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right'."
       },
       "zIndex": {
-        "name": "zIndex",
-        "type": "number",
-        "default": "1000",
         "description": "모달과 배경의 z-index 값입니다."
       },
       "layer": {
-        "name": "layer",
-        "type": "number",
-        "default": "0",
         "description": "쌓임 순서입니다. layer가 높은 모달이 낮은 모달 위에 렌더링되며 close(value, layer)로 닫을 수 있습니다."
       },
       "className": {
-        "name": "className",
-        "type": "string",
-        "default": "-",
         "description": "모달 콘텐츠 래퍼에 추가할 클래스 이름입니다."
       },
       "style": {
-        "name": "style",
-        "type": "React.CSSProperties",
-        "default": "-",
         "description": "모달 콘텐츠 래퍼에 적용할 인라인 스타일입니다."
       }
     },

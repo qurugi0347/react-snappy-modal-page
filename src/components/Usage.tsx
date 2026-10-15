@@ -12,24 +12,24 @@ const behaviorKeys = [
   "pending",
 ];
 
-const methodKeys = [
-  "show",
-  "close",
-  "throw",
-  "isShow",
-  "useCurrentModal",
-  "useSnappyModalState",
+const methods = [
+  ["show", "SnappyModal.show(component, options?)"],
+  ["close", "SnappyModal.close(value?, layerOrId?)"],
+  ["throw", "SnappyModal.throw(error?, layerOrId?)"],
+  ["isShow", "SnappyModal.isShow()"],
+  ["useCurrentModal", "useCurrentModal()"],
+  ["useSnappyModalState", "useSnappyModalState()"],
 ];
 
-const optionKeys = [
-  "allowOutsideClick",
-  "allowScroll",
-  "backdrop",
-  "position",
-  "zIndex",
-  "layer",
-  "className",
-  "style",
+const options = [
+  ["allowOutsideClick", "boolean", "true"],
+  ["allowScroll", "boolean", "false"],
+  ["backdrop", "boolean | string", "true"],
+  ["position", "string", "'center'"],
+  ["zIndex", "number", "1000"],
+  ["layer", "number", "0"],
+  ["className", "string", "-"],
+  ["style", "React.CSSProperties", "-"],
 ];
 
 export const Usage: React.FC = () => {
@@ -154,12 +154,10 @@ async function deleteProject(project: { id: string; name: string }) {
               </tr>
             </thead>
             <tbody>
-              {methodKeys.map(key => (
+              {methods.map(([key, signature]) => (
                 <tr key={key}>
                   <Td>
-                    <MethodName>
-                      {t(`usage.apiReference.methods.${key}.name`)}
-                    </MethodName>
+                    <MethodName>{signature}</MethodName>
                   </Td>
                   <Td>{t(`usage.apiReference.methods.${key}.description`)}</Td>
                 </tr>
@@ -178,13 +176,13 @@ async function deleteProject(project: { id: string; name: string }) {
               </tr>
             </thead>
             <tbody>
-              {optionKeys.map(key => (
+              {options.map(([key, type, defaultValue]) => (
                 <tr key={key}>
                   <Td>
-                    <MethodName>{t(`usage.options.${key}.name`)}</MethodName>
+                    <MethodName>{key}</MethodName>
                   </Td>
-                  <Td>{t(`usage.options.${key}.type`)}</Td>
-                  <Td>{t(`usage.options.${key}.default`)}</Td>
+                  <Td>{type}</Td>
+                  <Td>{defaultValue}</Td>
                   <Td>{t(`usage.options.${key}.description`)}</Td>
                 </tr>
               ))}
