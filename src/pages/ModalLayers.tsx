@@ -59,16 +59,18 @@ SnappyModal.close(undefined, LAYER.picker);`}
 
       <Section k={`${k}.byId`}>
         <CodeBlock
-          code={`function UploadProgress({ handle }: { handle: { id: string } }) {
-  handle.id = useCurrentModal().modalId;
+          code={`function UploadProgress({ onReady }: { onReady: (id: string) => void }) {
+  const { modalId } = useCurrentModal();
+  useEffect(() => onReady(modalId), [modalId, onReady]);
   return <p>Uploading…</p>;
 }
 
-const progress = { id: '' };
-SnappyModal.show(<UploadProgress handle={progress} />, { allowOutsideClick: false });
+const opened = Promise.withResolvers<string>();
+SnappyModal.show(<UploadProgress onReady={opened.resolve} />, { allowOutsideClick: false });
 
-await upload(file);
-SnappyModal.close('uploaded', progress.id);`}
+// Wait for the ID too: closing with an empty ID would target layer 0 instead
+const [modalId] = await Promise.all([opened.promise, upload(file)]);
+SnappyModal.close('uploaded', modalId);`}
         />
       </Section>
 

@@ -448,7 +448,7 @@
       "byId": {
         "title": "Fix 3: close a specific modal by ID",
         "body": [
-          "`useCurrentModal()` also returns `modalId`. Share it with the code that started the work, then pass it to `SnappyModal.close(value, modalId)` to close exactly that modal, even if others share its layer."
+          "`useCurrentModal()` also returns `modalId`. Have the modal report it from an effect, wait until it arrives, then pass it to `SnappyModal.close(value, modalId)` to close exactly that modal, even if others share its layer. Don't close before the ID is known: an empty ID is read as layer `0` and closes the first modal there."
         ]
       },
       "outsideClick": {

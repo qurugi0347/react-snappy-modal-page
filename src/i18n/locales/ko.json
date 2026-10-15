@@ -446,7 +446,7 @@
       "byId": {
         "title": "해결 3: ID로 특정 모달 닫기",
         "body": [
-          "`useCurrentModal()`은 `modalId`도 반환합니다. 작업을 시작한 코드와 이 값을 공유한 뒤 `SnappyModal.close(value, modalId)`에 전달하면, 같은 레이어에 다른 모달이 있어도 그 모달만 닫습니다."
+          "`useCurrentModal()`은 `modalId`도 반환합니다. 모달이 effect에서 이 값을 알려 주게 하고, 값을 받은 뒤 `SnappyModal.close(value, modalId)`에 전달하면 같은 레이어에 다른 모달이 있어도 그 모달만 닫습니다. ID를 받기 전에 닫지 마세요. 빈 ID는 레이어 `0`으로 해석되어 그 레이어의 첫 모달이 닫힙니다."
         ]
       },
       "outsideClick": {

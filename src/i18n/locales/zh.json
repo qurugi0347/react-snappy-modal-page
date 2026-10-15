@@ -444,7 +444,7 @@
       "byId": {
         "title": "方案 3：按 ID 关闭特定模态框",
         "body": [
-          "`useCurrentModal()` 还会返回 `modalId`。把它共享给发起任务的代码，再传给 `SnappyModal.close(value, modalId)`，即使同一层级有其他模态框，也只会关闭这一个。"
+          "`useCurrentModal()` 还会返回 `modalId`。让模态框在 effect 中报告它，等拿到后再传给 `SnappyModal.close(value, modalId)`，即使同一层级有其他模态框，也只会关闭这一个。不要在拿到 ID 之前关闭：空 ID 会被解析为层级 `0`，从而关闭该层级的第一个模态框。"
         ]
       },
       "outsideClick": {
