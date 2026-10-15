@@ -1,11 +1,19 @@
 import { styled } from "@linaria/react";
 import { Header } from "./components/Header";
-import { Hero } from "./components/Hero";
-import { Features } from "./components/Features";
-import { Examples } from "./components/Examples";
-import { Installation } from "./components/Installation";
-import { Usage } from "./components/Usage";
 import { Footer } from "./components/Footer";
+import { docRoutes } from "./routes";
+import { Home } from "./pages/Home";
+import { GettingStarted } from "./pages/GettingStarted";
+import { ApiReference } from "./pages/ApiReference";
+import { AsyncConfirmation } from "./pages/AsyncConfirmation";
+import { ModalLayers } from "./pages/ModalLayers";
+
+const pages = {
+  [docRoutes.gettingStarted]: GettingStarted,
+  [docRoutes.api]: ApiReference,
+  [docRoutes.asyncConfirmation]: AsyncConfirmation,
+  [docRoutes.modalLayers]: ModalLayers,
+};
 
 const AppWrapper = styled.div`
   color: #1f2937;
@@ -46,6 +54,9 @@ const Main = styled.main`
 `;
 
 function App() {
+  const path = window.location.pathname.replace(/\/?$/, "/");
+  const Page = pages[path as keyof typeof pages] ?? Home;
+
   return (
     <>
       <HeaderWrapper>
@@ -56,11 +67,7 @@ function App() {
       <AppWrapper>
         <Container>
           <Main>
-            <Hero />
-            <Features />
-            <Examples />
-            <Installation />
-            <Usage />
+            <Page />
           </Main>
           <Footer />
         </Container>

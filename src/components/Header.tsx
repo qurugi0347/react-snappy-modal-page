@@ -2,6 +2,7 @@ import React from "react";
 import { styled } from "@linaria/react";
 import { useTranslation } from "../i18n/i18n";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { docRoutes } from "../routes";
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -11,7 +12,8 @@ const HeaderContainer = styled.header`
   width: 100%;
 `;
 
-const Logo = styled.div`
+const Logo = styled.a`
+  text-decoration: none;
   font-weight: 700;
   font-size: 1.5rem;
   color: #111827;
@@ -64,7 +66,7 @@ export const Header: React.FC = () => {
 
   return (
     <HeaderContainer>
-      <Logo>
+      <Logo href="/">
         <svg
           width="24"
           height="24"
@@ -84,10 +86,10 @@ export const Header: React.FC = () => {
         {t("header.logo")}
       </Logo>
       <Nav>
-        <NavLink href="#features">{t("header.features")}</NavLink>
-        <NavLink href="#examples">{t("header.examples")}</NavLink>
-        <NavLink href="#installation">{t("header.installation")}</NavLink>
-        <NavLink href="#usage">{t("header.usage")}</NavLink>
+        <NavLink href="/#features">{t("header.features")}</NavLink>
+        <NavLink href="/#examples">{t("header.examples")}</NavLink>
+        <NavLink href={docRoutes.gettingStarted}>{t("header.docs")}</NavLink>
+        <NavLink href={docRoutes.api}>{t("header.api")}</NavLink>
       </Nav>
       <RightContainer>
         <LanguageSwitcher />

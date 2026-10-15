@@ -3,7 +3,21 @@
   <url>
     <loc>https://react.snappy-modal.com/</loc>
     <lastmod>2026-10-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://react.snappy-modal.com/docs/getting-started/</loc>
+    <lastmod>2026-10-15</lastmod>
+  </url>
+  <url>
+    <loc>https://react.snappy-modal.com/docs/api/</loc>
+    <lastmod>2026-10-15</lastmod>
+  </url>
+  <url>
+    <loc>https://react.snappy-modal.com/guides/async-confirmation/</loc>
+    <lastmod>2026-10-15</lastmod>
+  </url>
+  <url>
+    <loc>https://react.snappy-modal.com/guides/modal-layers/</loc>
+    <lastmod>2026-10-15</lastmod>
   </url>
 </urlset>
