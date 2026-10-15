@@ -3,9 +3,9 @@
     "logo": "React Snappy Modal",
     "features": "Features",
     "examples": "Examples",
-    "installation": "Installation",
-    "usage": "Usage",
-    "github": "GitHub"
+    "github": "GitHub",
+    "docs": "Docs",
+    "api": "Reference"
   },
   "hero": {
     "title": "The Modern React Modal Library",
@@ -105,76 +105,374 @@
     "configuringOptions": {
       "title": "Configuring Modal Options",
       "description": "You can customize the behavior and appearance of your modals with various options:"
+    }
+  },
+  "home": {
+    "meta": {
+      "title": "React Snappy Modal - Promise-Based Modal Library for React",
+      "description": "Open React modals with await SnappyModal.show() and get the user's answer back as a Promise. Lightweight, TypeScript-ready, with stacking layers and no state boilerplate."
+    }
+  },
+  "docs": {
+    "nav": {
+      "label": "Documentation",
+      "next": "Next"
     },
-    "apiReference": {
-      "title": "API Reference",
-      "methods": {
-        "show": {
-          "description": "Displays a modal containing the provided React component. Returns a Promise that resolves with the value passed to SnappyModal.close()."
-        },
-        "close": {
-          "description": "Closes the modal on the given layer or modal ID (default: layer 0) and resolves its promise with the provided value."
-        },
-        "throw": {
-          "description": "Closes the modal on the given layer or modal ID (default: layer 0) and rejects its promise with the provided error. Useful for cancellation or error states."
-        },
-        "isShow": {
-          "description": "Returns a boolean indicating whether a modal is currently displayed."
-        },
-        "useCurrentModal": {
-          "description": "Hook for components rendered inside a modal. Returns resolveModal(value) and rejectModal(error), which close that specific modal, along with its layer and modalId."
-        },
-        "useSnappyModalState": {
-          "description": "Hook that returns { isShow, modalProgress } and re-renders when a modal opens or closes."
+    "gettingStarted": {
+      "navTitle": "Getting Started",
+      "summary": "Install the package, add the provider, and open your first promise-based modal.",
+      "meta": {
+        "title": "Getting Started with React Snappy Modal - Install and Open Your First Modal",
+        "description": "Install react-snappy-modal, add SnappyModalProvider, write a modal with useCurrentModal, and await its result with SnappyModal.show(). Includes setup troubleshooting."
+      },
+      "title": "Getting Started",
+      "lead": "This guide takes you from an empty React app to a modal that returns the user's choice to the code that opened it. It takes about five minutes.",
+      "requirements": {
+        "title": "Requirements",
+        "body": [
+          "React Snappy Modal has no runtime dependencies besides React. The package declares React 16.12, 17, and 18 as peer dependencies, and this documentation site runs it on React 19.",
+          "Modals are opened with `SnappyModal.show()` and closed by settling a Promise, so you should be comfortable with `async` and `await`. TypeScript declarations ship with the package; there is no separate `@types` package."
+        ]
+      },
+      "install": {
+        "title": "1. Install the package",
+        "body": [
+          "Install it with your package manager. The stylesheet is bundled and imported automatically when you import `react-snappy-modal`, so there is no CSS file to add."
+        ]
+      },
+      "provider": {
+        "title": "2. Add SnappyModalProvider",
+        "body": [
+          "`SnappyModalProvider` is where open modals are rendered. Mount it once near the root of your app. Modals are rendered after the provider's children, so they appear on top of your page.",
+          "After that, `SnappyModal.show()` can be called from anywhere: components, event handlers, or plain utility functions outside React."
+        ]
+      },
+      "component": {
+        "title": "3. Write a modal component",
+        "body": [
+          "A modal is an ordinary React component. Inside it, call `useCurrentModal()` to get `resolveModal`. Calling `resolveModal(value)` closes this exact modal and hands `value` to the code that opened it.",
+          "The library positions your content and draws the backdrop, but it adds no background, padding, or border to the content. Style the card yourself, as below."
+        ]
+      },
+      "open": {
+        "title": "4. Open it and await the result",
+        "body": [
+          "`SnappyModal.show(element, options?)` renders the element and returns a Promise. Your function pauses at `await` until the modal closes and then continues with the result. There is no `isOpen` state and no callback prop to wire up."
+        ]
+      },
+      "results": {
+        "title": "What the Promise returns",
+        "body": ["The result depends on how the modal was closed:"],
+        "table": {
+          "headings": ["How the modal closed", "Result"],
+          "rows": [
+            [
+              "`resolveModal(value)` or `SnappyModal.close(value)`",
+              "Resolves with `value`"
+            ],
+            [
+              "Click on the backdrop (when `allowOutsideClick` is true, the default)",
+              "Resolves with `undefined`"
+            ],
+            [
+              "`rejectModal(error)` or `SnappyModal.throw(error)`",
+              "Rejects with `error`; handle it with `try`/`catch`"
+            ]
+          ]
+        }
+      },
+      "flow": {
+        "title": "How it works",
+        "body": ["Under the hood, a single call goes through four steps:"],
+        "items": [
+          "`show()` adds the modal to an internal stack, gives it a unique `modalId`, and returns a pending Promise.",
+          "`SnappyModalProvider` re-renders and draws every modal in the stack, ordered by `layer`.",
+          "Your component calls `resolveModal()`. The modal is removed from the stack and its Promise settles.",
+          "The code after `await` runs with the result."
+        ]
+      },
+      "troubleshooting": {
+        "title": "Troubleshooting",
+        "body": ["Most setup problems fall into one of these cases:"],
+        "table": {
+          "headings": ["Symptom", "Cause and fix"],
+          "rows": [
+            [
+              "Nothing appears and the code after `await` never runs",
+              "`SnappyModalProvider` is not mounted. Make sure it wraps the tree that is on screen. The Promise stays pending until the modal is closed."
+            ],
+            [
+              "Error: useCurrentModal must be used within CurrentModalProvider",
+              "`useCurrentModal()` only works in components rendered by `SnappyModal.show()`. Move the hook into the modal component, or close from outside with `SnappyModal.close(value)`."
+            ],
+            [
+              "The modal content is transparent",
+              "The content wrapper only handles positioning. Give your root element a background and padding, or pass `className` or `style` in the options."
+            ],
+            [
+              "The modal shows up under a sticky header",
+              "Modals use `z-index: 1000` by default. Pass a larger `zIndex` option or lower the other element's z-index."
+            ],
+            [
+              "The page behind the modal cannot scroll",
+              "`allowScroll` is false by default: the page is locked while the modal is open and the scroll position is restored on close. Pass `allowScroll: true` for non-blocking panels."
+            ]
+          ]
         }
       }
     },
-    "options": {
-      "title": "Options",
-      "headings": {
-        "option": "Option",
-        "type": "Type",
-        "default": "Default",
-        "description": "Description"
+    "api": {
+      "navTitle": "API Reference",
+      "summary": "Every method, hook, and option with parameters, return values, and edge cases.",
+      "meta": {
+        "title": "React Snappy Modal API Reference - show, close, throw, Hooks and Options",
+        "description": "API reference for react-snappy-modal: SnappyModal.show, close, throw, isShow, useCurrentModal, useSnappyModalState, SnappyModalProvider, and every modal option with defaults."
       },
-      "allowOutsideClick": {
-        "description": "When true, clicking outside the modal will close it."
+      "title": "API Reference",
+      "lead": "Everything exported by `react-snappy-modal` 1.2, with the exact behavior of each call.",
+      "exports": {
+        "title": "Exports",
+        "body": [
+          "The default export is the `SnappyModal` class with static methods. The provider and the hooks are named exports."
+        ]
       },
-      "allowScroll": {
-        "description": "When true, the page behind the modal can be scrolled."
+      "methods": {
+        "show": {
+          "body": [
+            "Renders `component` as a new modal and returns a `Promise<any>` that settles when that modal closes. Every call creates a new modal with its own `modalId`; calling it while another modal is open stacks the new one on top instead of replacing it.",
+            "`options` is merged over the defaults listed in the options table below."
+          ]
+        },
+        "close": {
+          "body": [
+            "Closes one modal and resolves its Promise with `value`. `layerOrId` picks the target: a number (or numeric string) means a layer, anything else is treated as a `modalId`. The default is layer `0`.",
+            "When several modals share the target layer, `close()` closes the one that was opened first on that layer, not the newest. If nothing matches, the call does nothing and does not throw."
+          ]
+        },
+        "throw": {
+          "body": [
+            "Works like `close()` but rejects the Promise with `error`. Use it only when the caller should treat the outcome as a failure, and always pair it with `try`/`catch`; otherwise the rejection is reported as unhandled."
+          ]
+        },
+        "isShow": {
+          "body": [
+            "Returns `true` while at least one modal is open. It reads the state once and does not cause re-renders. Use `useSnappyModalState()` when a component has to react to changes."
+          ]
+        },
+        "useCurrentModal": {
+          "body": [
+            "Only available inside a component rendered by `show()`. Returns `resolveModal(value)`, `rejectModal(error)`, the modal's `layer`, and its `modalId`.",
+            "`resolveModal` and `rejectModal` target the modal they were rendered in by ID, so they stay correct even when several modals share a layer. Prefer them over the static methods inside modal components."
+          ]
+        },
+        "useSnappyModalState": {
+          "body": [
+            "Subscribes to the modal stack and re-renders when a modal opens or closes. `isShow` is true while any modal is open, and `modalProgress` lists the open modals in render order, each with its `modalId` and resolved `options`."
+          ]
+        },
+        "provider": {
+          "body": [
+            "Renders every open modal after its children and applies the scroll lock. Mount it exactly once near the root of your app."
+          ]
+        }
       },
-      "backdrop": {
-        "description": "Controls the modal backdrop. Set to false to hide backdrop, true for default backdrop, or a string CSS color value for a custom color."
+      "options": {
+        "title": "Options",
+        "body": [
+          "Pass options as the second argument of `show()`. Each modal keeps its own options."
+        ],
+        "table": {
+          "headings": ["Option", "Type", "Default", "Description"]
+        },
+        "descriptions": {
+          "allowOutsideClick": "When true, clicking outside the content closes the modal and resolves its Promise with `undefined`. Set it to false when the user must make an explicit choice.",
+          "allowScroll": "When false, the page behind is locked while the modal is open and the scroll position is restored on close. The lock stays on while any open modal has `allowScroll: false`.",
+          "backdrop": "`true` dims the page behind the modal; `false` removes the dimming. The full-screen click area stays either way, so outside clicks still follow `allowOutsideClick`.",
+          "position": "Where the content sits on a 3×3 grid: `top-left`, `top-center`, `top-right`, `center-left`, `center`, `center-right`, `bottom-left`, `bottom-center`, `bottom-right`.",
+          "zIndex": "CSS z-index of the modal area. When omitted, the stylesheet default of 1000 applies.",
+          "layer": "Stacking group. Open modals are sorted by layer, higher layers render on top, and `close(value, layer)` targets a layer.",
+          "className": "Extra class name added to the content wrapper (`.snappy-modal-content`).",
+          "style": "Inline style applied to the content wrapper."
+        }
       },
-      "position": {
-        "description": "Position of the modal. Options: 'top-left', 'top-center', 'top-right', 'center-left', 'center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right'."
+      "backdropNote": {
+        "title": "Custom backdrop color",
+        "body": [
+          "In version 1.2.1, passing a string as `backdrop` sets the `--snappy-modal-backdrop` CSS variable, but the bundled stylesheet reads `--snappy-modal-backdrop-color`, so the color is not applied. Set the color in your own CSS instead:"
+        ]
       },
-      "zIndex": {
-        "description": "Z-index for the modal and backdrop."
+      "targeting": {
+        "title": "How layerOrId is resolved",
+        "body": ["`close()` and `throw()` share the same lookup rules:"],
+        "items": [
+          "Numbers and numeric strings such as `1` or `\"1\"` are layers; any other string is a `modalId`.",
+          "Omitting the argument targets layer `0`.",
+          "For a layer, the modal opened first on that layer is chosen.",
+          "If no modal matches, nothing happens."
+        ]
       },
-      "layer": {
-        "description": "Stacking order. Modals with a higher layer render above lower ones and can be closed with close(value, layer)."
-      },
-      "className": {
-        "description": "Additional class name applied to the modal content wrapper."
-      },
-      "style": {
-        "description": "Inline style applied to the modal content wrapper."
+      "typescript": {
+        "title": "Typing the result",
+        "body": [
+          "`show()` returns `Promise<any>`. Wrap it in a small generic helper so callers get a precise result type. `undefined` stays in the union because a backdrop click resolves without a value."
+        ]
       }
     },
-    "realWorld": {
-      "title": "Real-world Example: Confirm Before Deleting",
-      "description": "Wait for the user's decision, then continue the async flow in the same function. The modal component closes itself with useCurrentModal(), and both Cancel and an outside click produce a falsy result."
+    "asyncConfirmation": {
+      "navTitle": "Guide: Async Confirmation",
+      "summary": "Ask for confirmation, then call the API in the same async function, with errors, loading, and double clicks handled.",
+      "meta": {
+        "title": "Async Confirm Dialog in React with await - React Snappy Modal Guide",
+        "description": "Build a promise-based confirm dialog in React: await the user's choice, call an API, report errors, keep the dialog open while saving, and prevent double submits."
+      },
+      "title": "Guide: Async Confirmation Dialogs",
+      "lead": "Destructive actions such as deleting a project need an explicit confirmation before the request is sent. This guide builds that flow step by step with `await`, so the whole decision reads top to bottom in one function.",
+      "why": {
+        "title": "Why a Promise instead of state",
+        "body": [
+          "With a state-driven modal, the click handler sets `isOpen`, the dialog renders somewhere else, and the real work moves into an `onConfirm` callback. One action ends up spread across three places.",
+          "With `SnappyModal.show()`, the handler opens the dialog, waits for the answer, and continues. Local variables stay in scope, early returns work, and a single `try`/`catch` covers the whole flow."
+        ]
+      },
+      "confirm": {
+        "title": "1. A reusable confirm dialog",
+        "body": [
+          "The dialog only reports the decision. It resolves `true` for confirm and `false` for cancel, and knows nothing about what is being deleted, so the same component works for every confirmation in your app."
+        ]
+      },
+      "outcomes": {
+        "title": "2. Handle every outcome",
+        "body": [
+          "There are three possible results, and one falsy check covers both ways of cancelling:"
+        ],
+        "table": {
+          "headings": ["User action", "Result", "What to do"],
+          "rows": [
+            ["Clicks Delete", "`true`", "Send the request"],
+            ["Clicks Cancel", "`false`", "Stop"],
+            ["Clicks outside the dialog", "`undefined`", "Stop, same as Cancel"]
+          ]
+        }
+      },
+      "errors": {
+        "title": "3. Report failures",
+        "body": [
+          "`fetch` does not reject on HTTP errors, so check `response.ok` yourself. When the request fails, show the error with another modal. The user stays in context and the function still ends in one place."
+        ]
+      },
+      "pending": {
+        "title": "4. Keep the dialog open while saving",
+        "body": [
+          "Sometimes the dialog should stay on screen until the server answers, for example to show progress or a server-side error. Move the request into the modal and resolve only after it succeeds.",
+          "Disable the buttons while the request is running, and pass `allowOutsideClick: false` so an outside click cannot close the dialog halfway through."
+        ]
+      },
+      "rejection": {
+        "title": "5. When to reject instead of resolve",
+        "body": [
+          "Treat cancelling as a normal result and resolve it. Reserve `rejectModal(error)` and `SnappyModal.throw(error)` for real failures the caller has to handle, and always wrap those calls in `try`/`catch`; an uncaught rejection surfaces as an unhandled promise rejection."
+        ]
+      },
+      "doubleOpen": {
+        "title": "6. Prevent opening the same dialog twice",
+        "body": [
+          "A fast double click runs the handler twice and stacks two identical dialogs. Return early when `SnappyModal.isShow()` is true, or keep a local in-progress flag if other modals may legitimately be open."
+        ]
+      },
+      "checklist": {
+        "title": "Checklist",
+        "body": ["Before shipping a confirmation flow, check that:"],
+        "items": [
+          "The dialog resolves a value for every button and never leaves the Promise pending.",
+          "Both `false` and `undefined` are treated as cancel.",
+          "HTTP errors are detected with `response.ok`, not only network errors.",
+          "Destructive dialogs that send requests use `allowOutsideClick: false`.",
+          "Any use of `rejectModal` or `SnappyModal.throw` is wrapped in `try`/`catch`.",
+          "Repeated clicks cannot open a second dialog."
+        ]
+      }
     },
-    "behavior": {
-      "title": "Behavior Details",
-      "items": {
-        "outsideClick": "When allowOutsideClick is true, clicking the backdrop closes the modal and resolves the promise with undefined. Always handle an empty result.",
-        "defaultLayer": "SnappyModal.close() and SnappyModal.throw() target layer 0 by default. Pass a layer number or modal ID as the second argument to close a different modal.",
-        "noTarget": "If no modal exists on the target layer or ID, close() and throw() do nothing.",
-        "layers": "Modals render in ascending layer order. Give a nested modal a higher layer so it appears on top and can be closed independently.",
-        "currentModal": "Inside modal content, useCurrentModal() closes that exact modal regardless of its layer, which is safer than a global close() when several modals are open.",
-        "pending": "The promise stays pending until the modal is closed. Unmounting the component that opened the modal does not cancel it."
+    "modalLayers": {
+      "navTitle": "Guide: Modal Layers",
+      "summary": "Stack modals safely: how layer, modalId, and zIndex differ, and how to close exactly the modal you mean.",
+      "meta": {
+        "title": "Nested and Stacked Modals in React - React Snappy Modal Layers Guide",
+        "description": "Open modals on top of modals with react-snappy-modal. Learn how layer, modalId, and zIndex work, why close() can close the wrong modal, and how to target the right one."
+      },
+      "title": "Guide: Stacking Modals with Layers",
+      "lead": "Real apps open modals from inside modals: a settings dialog that asks for confirmation, or a form that opens a picker. This guide explains how React Snappy Modal orders stacked modals and how to close the one you mean.",
+      "concepts": {
+        "title": "Three different settings",
+        "body": [
+          "Stacked modals involve three settings that are easy to mix up:"
+        ],
+        "table": {
+          "headings": ["Setting", "What it is", "Use it to"],
+          "rows": [
+            [
+              "`layer`",
+              "A number option, `0` by default. Open modals are sorted by layer, and higher layers render later, on top.",
+              "Order groups of modals and target a group with `close(value, layer)`."
+            ],
+            [
+              "`modalId`",
+              "A unique ID created for each `show()` call, available from `useCurrentModal()`.",
+              "Close one specific modal."
+            ],
+            [
+              "`zIndex`",
+              "The CSS z-index of the modal area, `1000` by default.",
+              "Place modals above other page elements such as sticky headers."
+            ]
+          ]
+        }
+      },
+      "pitfall": {
+        "title": "The common mistake: closing by layer",
+        "body": [
+          "Every modal opens on layer `0` unless you pass another one. If a modal opens a second modal and the second calls `SnappyModal.close()`, the library looks for the first modal on layer 0, which is the parent. The parent closes and the child stays on screen."
+        ]
+      },
+      "currentModal": {
+        "title": "Fix 1: close from inside with useCurrentModal",
+        "body": [
+          "`resolveModal()` targets the modal it was rendered in by ID, so it is correct no matter how many modals share a layer. Make it the default in every modal component. The parent can also await the child and close itself only after the child answers."
+        ]
+      },
+      "explicitLayer": {
+        "title": "Fix 2: give nested modals their own layer",
+        "body": [
+          "When you have to close a modal from outside, for example from a timer or a global keyboard shortcut, open each level on its own layer and pass that layer to `close()`. Naming the layers in one constant keeps the order readable."
+        ]
+      },
+      "byId": {
+        "title": "Fix 3: close a specific modal by ID",
+        "body": [
+          "`useCurrentModal()` also returns `modalId`. Have the modal report it from an effect, wait until it arrives, then pass it to `SnappyModal.close(value, modalId)` to close exactly that modal, even if others share its layer. Don't close before the ID is known: an empty ID is read as layer `0` and closes the first modal there."
+        ]
+      },
+      "outsideClick": {
+        "title": "Outside clicks and scroll lock with several modals",
+        "body": [
+          "An outside click closes the modal whose area was clicked, by ID, and resolves its Promise with `undefined`. Modals underneath stay open.",
+          "The page stays locked while any open modal has `allowScroll: false`. It unlocks and restores the scroll position only after the last such modal closes."
+        ]
+      },
+      "state": {
+        "title": "Reacting to the stack",
+        "body": [
+          "`useSnappyModalState()` re-renders whenever the stack changes. Use it to pause global keyboard shortcuts while a modal is open, or to show how many dialogs are stacked."
+        ]
+      },
+      "checklist": {
+        "title": "Checklist",
+        "body": ["When a screen can open more than one modal, check that:"],
+        "items": [
+          "Modal components close themselves with `useCurrentModal()`.",
+          "`SnappyModal.close()` without arguments is only used when a single modal can be open.",
+          "Modals closed from outside have their own `layer` or are closed by `modalId`.",
+          "`zIndex` is only used to rise above non-modal page elements, not to order modals."
+        ]
       }
     }
   }

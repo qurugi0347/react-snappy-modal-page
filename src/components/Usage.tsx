@@ -2,35 +2,7 @@ import React from "react";
 import { styled } from "@linaria/react";
 import { useTranslation } from "../i18n/i18n";
 import { CodeBlock } from "./CodeBlock.tsx";
-
-const behaviorKeys = [
-  "outsideClick",
-  "defaultLayer",
-  "noTarget",
-  "layers",
-  "currentModal",
-  "pending",
-];
-
-const methods = [
-  ["show", "SnappyModal.show(component, options?)"],
-  ["close", "SnappyModal.close(value?, layerOrId?)"],
-  ["throw", "SnappyModal.throw(error?, layerOrId?)"],
-  ["isShow", "SnappyModal.isShow()"],
-  ["useCurrentModal", "useCurrentModal()"],
-  ["useSnappyModalState", "useSnappyModalState()"],
-];
-
-const options = [
-  ["allowOutsideClick", "boolean", "true"],
-  ["allowScroll", "boolean", "false"],
-  ["backdrop", "boolean | string", "true"],
-  ["position", "string", "'center'"],
-  ["zIndex", "number", "1000"],
-  ["layer", "number", "0"],
-  ["className", "string", "-"],
-  ["style", "React.CSSProperties", "-"],
-];
+import { docRoutes, type DocPage } from "../routes";
 
 export const Usage: React.FC = () => {
   const { t } = useTranslation();
@@ -47,19 +19,25 @@ export const Usage: React.FC = () => {
           </UsageDescription>
           <CodeBlock
             code={`import React from 'react';
-import SnappyModal from 'react-snappy-modal';
+import SnappyModal, { useCurrentModal } from 'react-snappy-modal';
+
+function MyModal() {
+  const { resolveModal } = useCurrentModal();
+
+  return (
+    <div className="my-modal">
+      <h2>My Modal</h2>
+      <p>This is a basic modal example.</p>
+      <button onClick={() => resolveModal('modal result')}>
+        Close Modal
+      </button>
+    </div>
+  );
+}
 
 function MyComponent() {
   const showModal = async () => {
-    const result = await SnappyModal.show(
-      <div className="my-modal">
-        <h2>My Modal</h2>
-        <p>This is a basic modal example.</p>
-        <button onClick={() => SnappyModal.close('modal result')}>
-          Close Modal
-        </button>
-      </div>
-    );
+    const result = await SnappyModal.show(<MyModal />);
     
     console.log('Modal result:', result);
   };
@@ -77,21 +55,31 @@ function MyComponent() {
             {t("usage.configuringOptions.description")}
           </UsageDescription>
           <CodeBlock
-            code={`// Show a modal with custom options
-const showCustomModal = async () => {
-  const result = await SnappyModal.show(
+            code={`import SnappyModal, { useCurrentModal } from 'react-snappy-modal';
+
+function CustomModal() {
+  const { resolveModal } = useCurrentModal();
+
+  return (
     <div className="my-modal">
       <h2>Custom Modal</h2>
       <p>This modal has custom options.</p>
-      <button onClick={() => SnappyModal.close('result')}>
+      <button onClick={() => resolveModal('result')}>
         Close
       </button>
-    </div>,
+    </div>
+  );
+}
+
+// Show a modal with custom options
+const showCustomModal = async () => {
+  const result = await SnappyModal.show(
+    <CustomModal />,
     {
       // Modal configuration options
       allowOutsideClick: false,  // Prevent closing when clicking backdrop
       allowScroll: true,         // Allow page scrolling behind modal
-      backdrop: 'rgba(0,0,0,0.8)', // Custom backdrop color
+      backdrop: true,            // Dim the page behind the modal
       position: 'top-center',    // Position modal at top
       zIndex: 1050              // Custom z-index
     }
@@ -102,93 +90,14 @@ const showCustomModal = async () => {
           />
         </UsageCard>
 
-        <UsageCard>
-          <UsageTitle>{t("usage.realWorld.title")}</UsageTitle>
-          <UsageDescription>
-            {t("usage.realWorld.description")}
-          </UsageDescription>
-          <CodeBlock
-            code={`import SnappyModal, { useCurrentModal } from 'react-snappy-modal';
-
-function DeleteConfirm({ name }: { name: string }) {
-  const { resolveModal } = useCurrentModal();
-
-  return (
-    <div className="my-modal">
-      <p>Delete "{name}"? This cannot be undone.</p>
-      <button onClick={() => resolveModal(false)}>Cancel</button>
-      <button onClick={() => resolveModal(true)}>Delete</button>
-    </div>
-  );
-}
-
-async function deleteProject(project: { id: string; name: string }) {
-  const confirmed = await SnappyModal.show(
-    <DeleteConfirm name={project.name} />,
-  );
-
-  // Cancel resolves false, an outside click resolves undefined
-  if (!confirmed) return;
-
-  await fetch(\`/api/projects/\${project.id}\`, { method: 'DELETE' });
-}`}
-          />
-        </UsageCard>
-
-        <UsageCard>
-          <UsageTitle>{t("usage.behavior.title")}</UsageTitle>
-          <BehaviorList>
-            {behaviorKeys.map(key => (
-              <li key={key}>{t(`usage.behavior.items.${key}`)}</li>
-            ))}
-          </BehaviorList>
-        </UsageCard>
-
-        <UsageCard>
-          <UsageTitle>{t("usage.apiReference.title")}</UsageTitle>
-          <ApiTable>
-            <thead>
-              <tr>
-                <Th>{t("usage.options.headings.option")}</Th>
-                <Th>{t("usage.options.headings.description")}</Th>
-              </tr>
-            </thead>
-            <tbody>
-              {methods.map(([key, signature]) => (
-                <tr key={key}>
-                  <Td>
-                    <MethodName>{signature}</MethodName>
-                  </Td>
-                  <Td>{t(`usage.apiReference.methods.${key}.description`)}</Td>
-                </tr>
-              ))}
-            </tbody>
-          </ApiTable>
-
-          <UsageTitle>{t("usage.options.title")}</UsageTitle>
-          <ApiTable>
-            <thead>
-              <tr>
-                <Th>{t("usage.options.headings.option")}</Th>
-                <Th>{t("usage.options.headings.type")}</Th>
-                <Th>{t("usage.options.headings.default")}</Th>
-                <Th>{t("usage.options.headings.description")}</Th>
-              </tr>
-            </thead>
-            <tbody>
-              {options.map(([key, type, defaultValue]) => (
-                <tr key={key}>
-                  <Td>
-                    <MethodName>{key}</MethodName>
-                  </Td>
-                  <Td>{type}</Td>
-                  <Td>{defaultValue}</Td>
-                  <Td>{t(`usage.options.${key}.description`)}</Td>
-                </tr>
-              ))}
-            </tbody>
-          </ApiTable>
-        </UsageCard>
+        <DocLinks>
+          {(Object.keys(docRoutes) as DocPage[]).map(page => (
+            <DocLink key={page} href={docRoutes[page]}>
+              <strong>{t(`docs.${page}.navTitle`)} →</strong>
+              <span>{t(`docs.${page}.summary`)}</span>
+            </DocLink>
+          ))}
+        </DocLinks>
       </UsageWrapper>
     </UsageContainer>
   );
@@ -242,38 +151,28 @@ const UsageDescription = styled.p`
   margin-bottom: 1.5rem;
 `;
 
-const BehaviorList = styled.ul`
-  color: #4b5563;
-  line-height: 1.6;
-  padding-left: 1.25rem;
+const DocLinks = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+`;
+
+const DocLink = styled.a`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-`;
-
-const ApiTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin: 2rem 0;
-`;
-
-const Th = styled.th`
-  text-align: left;
-  padding: 0.75rem;
-  border-bottom: 1px solid #e5e7eb;
-  font-weight: 600;
-  color: #111827;
-`;
-
-const Td = styled.td`
-  padding: 0.75rem;
-  border-bottom: 1px solid #e5e7eb;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
   color: #4b5563;
-  vertical-align: top;
-`;
+  text-decoration: none;
+  line-height: 1.5;
 
-const MethodName = styled.span`
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  font-weight: 500;
-  color: #111827;
+  strong {
+    color: #111827;
+  }
+
+  &:hover {
+    border-color: #111827;
+  }
 `;

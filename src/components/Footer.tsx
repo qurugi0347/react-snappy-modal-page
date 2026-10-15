@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "@linaria/react";
 import { useTranslation } from "../i18n/i18n";
+import { docRoutes, type DocPage } from "../routes";
 
 const FooterContainer = styled.footer`
   padding: 3rem 0;
@@ -83,12 +84,11 @@ export const Footer: React.FC = () => {
           {t("header.logo")}
         </FooterLogo>
         <FooterLinks>
-          <FooterLink href="#features">{t("header.features")}</FooterLink>
-          <FooterLink href="#examples">{t("header.examples")}</FooterLink>
-          <FooterLink href="#installation">
-            {t("header.installation")}
-          </FooterLink>
-          <FooterLink href="#usage">{t("header.usage")}</FooterLink>
+          {(Object.keys(docRoutes) as DocPage[]).map(page => (
+            <FooterLink key={page} href={docRoutes[page]}>
+              {t(`docs.${page}.navTitle`)}
+            </FooterLink>
+          ))}
           <FooterLink
             href="https://github.com/qurugi0347/react-snappy-modal"
             target="_blank"

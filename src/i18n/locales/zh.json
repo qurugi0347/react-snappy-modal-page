@@ -3,9 +3,9 @@
     "logo": "React Snappy Modal",
     "features": "功能",
     "examples": "示例",
-    "installation": "安装",
-    "usage": "用法",
-    "github": "GitHub"
+    "github": "GitHub",
+    "docs": "文档",
+    "api": "参考"
   },
   "hero": {
     "title": "现代 React 模态库",
@@ -105,76 +105,370 @@
     "configuringOptions": {
       "title": "配置模态选项",
       "description": "您可以使用各种选项自定义模态的行为和外观："
+    }
+  },
+  "home": {
+    "meta": {
+      "title": "React Snappy Modal - 基于 Promise 的 React 模态框库",
+      "description": "用 await SnappyModal.show() 打开 React 模态框，并以 Promise 获取用户的响应。轻量、支持 TypeScript，可按层级叠加模态框，无需状态样板代码。"
+    }
+  },
+  "docs": {
+    "nav": {
+      "label": "文档",
+      "next": "下一篇"
     },
-    "apiReference": {
-      "title": "API 参考",
-      "methods": {
-        "show": {
-          "description": "显示包含提供的 React 组件的模态。返回一个 Promise，解析为传递给 SnappyModal.close() 的值。"
-        },
-        "close": {
-          "description": "关闭指定层级或模态 ID（默认：第 0 层）上的模态，并用提供的值解析其 Promise。"
-        },
-        "throw": {
-          "description": "关闭指定层级或模态 ID（默认：第 0 层）上的模态，并用提供的错误拒绝其 Promise。适用于处理取消或错误状态。"
-        },
-        "isShow": {
-          "description": "返回一个布尔值，指示当前是否显示模态。"
-        },
-        "useCurrentModal": {
-          "description": "用于在模态内部渲染的组件的 Hook。返回仅关闭该模态的 resolveModal(value) 和 rejectModal(error)，以及其 layer 和 modalId。"
-        },
-        "useSnappyModalState": {
-          "description": "返回 { isShow, modalProgress } 的 Hook，在模态打开或关闭时重新渲染。"
+    "gettingStarted": {
+      "navTitle": "快速开始",
+      "summary": "安装包、添加 Provider，并打开第一个基于 Promise 的模态框。",
+      "meta": {
+        "title": "React Snappy Modal 快速开始 - 从安装到第一个模态框",
+        "description": "安装 react-snappy-modal，添加 SnappyModalProvider，用 useCurrentModal 编写模态框，并 await SnappyModal.show() 的结果。包含常见配置问题的排查方法。"
+      },
+      "title": "快速开始",
+      "lead": "从一个空的 React 应用开始，做出一个能把用户选择返回给打开它的代码的模态框。大约需要五分钟。",
+      "requirements": {
+        "title": "环境要求",
+        "body": [
+          "除 React 外，React Snappy Modal 没有运行时依赖。包将 React 16.12、17 和 18 声明为 peer dependency，本文档站点运行在 React 19 上。",
+          "模态框通过 `SnappyModal.show()` 打开，并通过完成 Promise 关闭，因此最好熟悉 `async` 和 `await`。包内已包含 TypeScript 类型声明，无需单独安装 `@types` 包。"
+        ]
+      },
+      "install": {
+        "title": "1. 安装包",
+        "body": [
+          "使用你的包管理器安装。样式表已包含在包中，导入 `react-snappy-modal` 时会自动应用，无需额外添加 CSS 文件。"
+        ]
+      },
+      "provider": {
+        "title": "2. 添加 SnappyModalProvider",
+        "body": [
+          "`SnappyModalProvider` 是已打开模态框的渲染位置。在应用根部附近放置一次即可。模态框渲染在 Provider 的 children 之后，因此会显示在页面之上。",
+          "之后，你可以在任何地方调用 `SnappyModal.show()`：组件、事件处理函数，甚至 React 之外的普通工具函数。"
+        ]
+      },
+      "component": {
+        "title": "3. 编写模态框组件",
+        "body": [
+          "模态框就是普通的 React 组件。在组件内调用 `useCurrentModal()` 获取 `resolveModal`。调用 `resolveModal(value)` 会关闭当前这个模态框，并把 `value` 交给打开它的代码。",
+          "库只负责内容定位和背景遮罩，不会给内容添加背景色、内边距或边框。请像下面的示例一样自行设置卡片样式。"
+        ]
+      },
+      "open": {
+        "title": "4. 打开模态框并等待结果",
+        "body": [
+          "`SnappyModal.show(element, options?)` 渲染元素并返回 Promise。函数会在 `await` 处暂停，直到模态框关闭，然后带着结果继续执行。无需连接 `isOpen` 状态或回调 prop。"
+        ]
+      },
+      "results": {
+        "title": "Promise 返回什么",
+        "body": ["结果取决于模态框的关闭方式。"],
+        "table": {
+          "headings": ["关闭方式", "结果"],
+          "rows": [
+            [
+              "`resolveModal(value)` 或 `SnappyModal.close(value)`",
+              "以 `value` resolve"
+            ],
+            [
+              "点击背景（`allowOutsideClick` 为默认值 true 时）",
+              "以 `undefined` resolve"
+            ],
+            [
+              "`rejectModal(error)` 或 `SnappyModal.throw(error)`",
+              "以 `error` reject，需用 `try`/`catch` 处理"
+            ]
+          ]
+        }
+      },
+      "flow": {
+        "title": "工作原理",
+        "body": ["在内部，一次调用会经历四个步骤。"],
+        "items": [
+          "`show()` 把模态框加入内部栈，分配唯一的 `modalId`，并返回一个等待中的 Promise。",
+          "`SnappyModalProvider` 重新渲染，按 `layer` 顺序绘制栈中的所有模态框。",
+          "组件调用 `resolveModal()` 后，模态框从栈中移除，Promise 完成。",
+          "`await` 之后的代码拿到结果继续执行。"
+        ]
+      },
+      "troubleshooting": {
+        "title": "问题排查",
+        "body": ["大多数配置问题属于以下情况之一。"],
+        "table": {
+          "headings": ["现象", "原因与解决"],
+          "rows": [
+            [
+              "什么都没显示，`await` 之后的代码也不执行",
+              "`SnappyModalProvider` 没有挂载。确认 Provider 包裹了当前渲染的树。模态框关闭前，Promise 会一直处于等待状态。"
+            ],
+            [
+              "Error: useCurrentModal must be used within CurrentModalProvider",
+              "`useCurrentModal()` 只能在由 `SnappyModal.show()` 渲染的组件中使用。把 Hook 移到模态框组件内，或在外部使用 `SnappyModal.close(value)` 关闭。"
+            ],
+            [
+              "模态框内容是透明的",
+              "内容包装器只负责定位。请为根元素设置背景和内边距，或通过选项传入 `className` 或 `style`。"
+            ],
+            [
+              "模态框显示在 sticky 头部下方",
+              "模态框默认使用 `z-index: 1000`。传入更大的 `zIndex` 选项，或降低其他元素的 z-index。"
+            ],
+            [
+              "模态框后面的页面无法滚动",
+              "`allowScroll` 默认为 false，模态框打开期间会固定页面，并在关闭时恢复滚动位置。对于不遮挡页面的面板，请传入 `allowScroll: true`。"
+            ]
+          ]
         }
       }
     },
-    "options": {
-      "title": "选项",
-      "headings": {
-        "option": "选项",
-        "type": "类型",
-        "default": "默认值",
-        "description": "描述"
+    "api": {
+      "navTitle": "API 参考",
+      "summary": "所有方法、Hook 和选项的参数、返回值与边界情况。",
+      "meta": {
+        "title": "React Snappy Modal API 参考 - show、close、throw、Hook 与选项",
+        "description": "react-snappy-modal 的 API 参考：SnappyModal.show、close、throw、isShow、useCurrentModal、useSnappyModalState、SnappyModalProvider，以及所有模态框选项的默认值。"
       },
-      "allowOutsideClick": {
-        "description": "当为 true 时，点击模态外部将关闭它。"
+      "title": "API 参考",
+      "lead": "`react-snappy-modal` 1.2 导出的全部内容，以及每个调用的确切行为。",
+      "exports": {
+        "title": "导出内容",
+        "body": [
+          "默认导出是带有静态方法的 `SnappyModal` 类。Provider 和 Hook 是具名导出。"
+        ]
       },
-      "allowScroll": {
-        "description": "当为 true 时，模态后面的页面可以滚动。"
+      "methods": {
+        "show": {
+          "body": [
+            "将 `component` 渲染为新的模态框，并返回在该模态框关闭时完成的 `Promise<any>`。每次调用都会创建一个拥有唯一 `modalId` 的新模态框；如果已有模态框打开，新模态框会叠加在上面，而不是替换它。",
+            "`options` 会合并到下方选项表的默认值之上。"
+          ]
+        },
+        "close": {
+          "body": [
+            "关闭一个模态框，并以 `value` resolve 其 Promise。`layerOrId` 用于选择目标：数字（或数字字符串）视为层级，其他值视为 `modalId`。默认是层级 `0`。",
+            "如果目标层级上有多个模态框，关闭的是该层级中最早打开的那个，而不是最新的。没有匹配的模态框时什么也不做，也不会报错。"
+          ]
+        },
+        "throw": {
+          "body": [
+            "与 `close()` 相同，但以 `error` reject Promise。仅在调用方需要把结果当作失败处理时使用，并始终配合 `try`/`catch`，否则会被报告为未处理的 rejection。"
+          ]
+        },
+        "isShow": {
+          "body": [
+            "至少有一个模态框打开时返回 `true`。它只读取一次状态，不会触发重新渲染。需要响应变化的组件请使用 `useSnappyModalState()`。"
+          ]
+        },
+        "useCurrentModal": {
+          "body": [
+            "只能在由 `show()` 渲染的组件内使用。返回 `resolveModal(value)`、`rejectModal(error)`，以及该模态框的 `layer` 和 `modalId`。",
+            "`resolveModal` 和 `rejectModal` 按 ID 关闭渲染它们的那个模态框，因此即使同一层级有多个模态框也能准确关闭。在模态框组件内应优先使用它们，而不是静态方法。"
+          ]
+        },
+        "useSnappyModalState": {
+          "body": [
+            "订阅模态框栈，并在模态框打开或关闭时重新渲染。有模态框打开时 `isShow` 为 true；`modalProgress` 按渲染顺序列出已打开的模态框，每项包含 `modalId` 和合并后的 `options`。"
+          ]
+        },
+        "provider": {
+          "body": [
+            "在 children 之后渲染所有已打开的模态框，并应用滚动锁定。在应用根部附近挂载且只挂载一次。"
+          ]
+        }
       },
-      "backdrop": {
-        "description": "控制模态背景。设置为 false 隐藏背景，true 为默认背景，或字符串 CSS 颜色值为自定义颜色。"
+      "options": {
+        "title": "选项",
+        "body": [
+          "选项作为 `show()` 的第二个参数传入。每个模态框都有自己的选项。"
+        ],
+        "table": {
+          "headings": ["选项", "类型", "默认值", "说明"]
+        },
+        "descriptions": {
+          "allowOutsideClick": "为 true 时，点击内容外部会关闭模态框，并以 `undefined` resolve Promise。在用户必须做出选择的流程中请设为 false。",
+          "allowScroll": "为 false 时，模态框打开期间固定后面的页面，关闭时恢复滚动位置。只要任一已打开的模态框设置了 `allowScroll: false`，锁定就会保持。",
+          "backdrop": "`true` 会使模态框后面的页面变暗，`false` 则去除遮罩。两种情况下全屏点击区域都存在，因此外部点击仍遵循 `allowOutsideClick`。",
+          "position": "内容在 3×3 网格中的位置：`top-left`、`top-center`、`top-right`、`center-left`、`center`、`center-right`、`bottom-left`、`bottom-center`、`bottom-right` 之一。",
+          "zIndex": "模态框区域的 CSS z-index。省略时使用样式表默认值 1000。",
+          "layer": "叠加分组。已打开的模态框按 layer 排序，层级越高越靠上渲染，并可通过 `close(value, layer)` 指定。",
+          "className": "添加到内容包装器（`.snappy-modal-content`）的类名。",
+          "style": "应用于内容包装器的内联样式。"
+        }
       },
-      "position": {
-        "description": "模态的位置。选项：'top-left', 'top-center', 'top-right', 'center-left', 'center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right'。"
+      "backdropNote": {
+        "title": "自定义背景颜色",
+        "body": [
+          "在 1.2.1 版本中，给 `backdrop` 传入字符串会设置 `--snappy-modal-backdrop` CSS 变量，但内置样式表读取的是 `--snappy-modal-backdrop-color`，因此颜色不会生效。请改为在 CSS 中直接设置颜色。"
+        ]
       },
-      "zIndex": {
-        "description": "模态和背景的 z-index。"
+      "targeting": {
+        "title": "layerOrId 的解析规则",
+        "body": ["`close()` 和 `throw()` 使用相同的规则查找目标。"],
+        "items": [
+          "数字和数字字符串（如 `1` 或 `\"1\"`）是层级，其他字符串是 `modalId`。",
+          "省略该参数时以层级 `0` 为目标。",
+          "指定层级时，选择该层级中最早打开的模态框。",
+          "没有匹配的模态框时什么也不会发生。"
+        ]
       },
-      "layer": {
-        "description": "堆叠顺序。layer 较高的模态渲染在较低的模态之上，可通过 close(value, layer) 关闭。"
-      },
-      "className": {
-        "description": "添加到模态内容容器的额外类名。"
-      },
-      "style": {
-        "description": "应用于模态内容容器的内联样式。"
+      "typescript": {
+        "title": "为结果指定类型",
+        "body": [
+          "`show()` 返回 `Promise<any>`。用一个小型泛型辅助函数包装它，调用方就能得到准确的结果类型。外部点击会无值 resolve，因此请在联合类型中保留 `undefined`。"
+        ]
       }
     },
-    "realWorld": {
-      "title": "实战示例：删除前确认",
-      "description": "等待用户做出选择，然后在同一个函数中继续异步流程。模态组件通过 useCurrentModal() 自行关闭，取消和点击外部都会返回假值结果。"
+    "asyncConfirmation": {
+      "navTitle": "指南：异步确认模态框",
+      "summary": "确认后在同一个 async 函数中调用 API，并处理错误、加载状态和重复点击。",
+      "meta": {
+        "title": "在 React 中用 await 构建确认模态框 - React Snappy Modal 指南",
+        "description": "在 React 中构建基于 Promise 的确认模态框：await 用户的选择、调用 API、提示错误、保存期间保持模态框打开，并防止重复提交。"
+      },
+      "title": "指南：异步确认模态框",
+      "lead": "删除项目这类不可撤销的操作，在发送请求前需要明确确认。本指南用 `await` 逐步构建这个流程，让它在一个函数里从上到下读下来。",
+      "why": {
+        "title": "为什么用 Promise 而不是状态",
+        "body": [
+          "在基于状态的模态框中，点击处理函数修改 `isOpen`，模态框在别处渲染，实际操作被移到 `onConfirm` 回调里。一个动作被分散到三个地方。",
+          "使用 `SnappyModal.show()` 时，处理函数打开模态框、等待回答，然后继续执行。局部变量保持可用，可以提前 return，一个 `try`/`catch` 就能覆盖整个流程。"
+        ]
+      },
+      "confirm": {
+        "title": "1. 可复用的确认模态框",
+        "body": [
+          "模态框只报告决定：确认时 resolve 为 `true`，取消时为 `false`。它不知道要删除什么，因此应用中的所有确认流程都可以复用同一个组件。"
+        ]
+      },
+      "outcomes": {
+        "title": "2. 处理所有结果",
+        "body": ["结果有三种，一次 falsy 判断即可处理两种取消方式。"],
+        "table": {
+          "headings": ["用户操作", "结果", "处理"],
+          "rows": [
+            ["点击删除", "`true`", "发送请求"],
+            ["点击取消", "`false`", "中止"],
+            ["点击模态框外部", "`undefined`", "与取消一样中止"]
+          ]
+        }
+      },
+      "errors": {
+        "title": "3. 提示失败",
+        "body": [
+          "`fetch` 在 HTTP 错误时不会 reject，因此需要自行检查 `response.ok`。请求失败时用另一个模态框显示错误，用户不会丢失上下文，函数也在同一处结束。"
+        ]
+      },
+      "pending": {
+        "title": "4. 保存期间保持模态框打开",
+        "body": [
+          "有时需要在服务器响应前保持模态框打开，以显示进度或服务器错误。这时把请求移到模态框内部，只在成功后 resolve。",
+          "请求进行中禁用按钮，并传入 `allowOutsideClick: false`，避免外部点击中途关闭模态框。"
+        ]
+      },
+      "rejection": {
+        "title": "5. 何时 reject 而不是 resolve",
+        "body": [
+          "取消是正常结果，应当 resolve。`rejectModal(error)` 和 `SnappyModal.throw(error)` 只用于调用方必须处理的真正失败，并始终用 `try`/`catch` 包裹。未捕获的 rejection 会表现为 unhandled promise rejection。"
+        ]
+      },
+      "doubleOpen": {
+        "title": "6. 防止同一模态框打开两次",
+        "body": [
+          "快速双击会让处理函数执行两次，叠加出两个相同的模态框。`SnappyModal.isShow()` 为 true 时直接返回；如果可能有其他模态框打开，则使用局部的进行中标志。"
+        ]
+      },
+      "checklist": {
+        "title": "检查清单",
+        "body": ["上线确认流程前，请检查以下各项。"],
+        "items": [
+          "每个按钮都会 resolve 一个值，Promise 不会一直等待。",
+          "`false` 和 `undefined` 都按取消处理。",
+          "除网络错误外，也用 `response.ok` 检查 HTTP 错误。",
+          "发送请求的破坏性操作模态框使用 `allowOutsideClick: false`。",
+          "使用 `rejectModal` 或 `SnappyModal.throw` 的地方都用 `try`/`catch` 包裹。",
+          "重复点击不会打开第二个模态框。"
+        ]
+      }
     },
-    "behavior": {
-      "title": "行为细节",
-      "items": {
-        "outsideClick": "当 allowOutsideClick 为 true 时，点击背景会关闭模态，并以 undefined 解析 Promise。请始终处理空结果。",
-        "defaultLayer": "SnappyModal.close() 和 SnappyModal.throw() 默认作用于第 0 层。要关闭其他模态，请将层级编号或模态 ID 作为第二个参数传入。",
-        "noTarget": "如果目标层级或 ID 上没有模态，close() 和 throw() 不会执行任何操作。",
-        "layers": "模态按 layer 升序渲染。为嵌套模态设置更高的 layer，使其显示在上方并可单独关闭。",
-        "currentModal": "在模态内容中使用 useCurrentModal() 只会关闭该模态，与其 layer 无关。当打开多个模态时，比全局 close() 更安全。",
-        "pending": "在模态关闭之前，Promise 会一直处于等待状态。卸载打开模态的组件不会取消它。"
+    "modalLayers": {
+      "navTitle": "指南：模态框层级",
+      "summary": "安全地叠加模态框：layer、modalId 与 zIndex 的区别，以及如何准确关闭目标模态框。",
+      "meta": {
+        "title": "在 React 中处理嵌套与多个模态框 - React Snappy Modal 层级指南",
+        "description": "使用 react-snappy-modal 在模态框之上打开模态框。说明 layer、modalId 和 zIndex 的行为，close() 为何会关闭错误的模态框，以及如何准确关闭目标模态框。"
+      },
+      "title": "指南：用层级叠加模态框",
+      "lead": "真实应用会在模态框中再打开模态框，比如需要确认的设置模态框，或打开选择器的表单。本指南说明 React Snappy Modal 如何排列叠加的模态框，以及如何关闭你想关闭的那个。",
+      "concepts": {
+        "title": "三个不同的设置",
+        "body": ["叠加模态框时涉及三个容易混淆的设置。"],
+        "table": {
+          "headings": ["设置", "含义", "用途"],
+          "rows": [
+            [
+              "`layer`",
+              "数字选项，默认 `0`。已打开的模态框按 layer 排序，层级越高越晚渲染，显示在上方。",
+              "排列模态框分组，并通过 `close(value, layer)` 指定分组。"
+            ],
+            [
+              "`modalId`",
+              "每次调用 `show()` 生成的唯一 ID，可通过 `useCurrentModal()` 获取。",
+              "关闭某一个特定的模态框。"
+            ],
+            [
+              "`zIndex`",
+              "模态框区域的 CSS z-index，默认 `1000`。",
+              "让模态框显示在 sticky 头部等页面元素之上。"
+            ]
+          ]
+        }
+      },
+      "pitfall": {
+        "title": "常见错误：按层级关闭",
+        "body": [
+          "如果不传其他值，所有模态框都在层级 `0` 打开。当一个模态框打开第二个模态框，而第二个调用 `SnappyModal.close()` 时，库会查找层级 0 上的第一个模态框，也就是父模态框。结果父模态框被关闭，子模态框仍留在屏幕上。"
+        ]
+      },
+      "currentModal": {
+        "title": "方案 1：用 useCurrentModal 在内部关闭",
+        "body": [
+          "`resolveModal()` 按 ID 关闭渲染它的那个模态框，无论同一层级有多少模态框都能准确关闭。把它作为所有模态框组件的默认方式。父模态框也可以 await 子模态框，在子模态框回答后再关闭自己。"
+        ]
+      },
+      "explicitLayer": {
+        "title": "方案 2：给嵌套模态框指定独立层级",
+        "body": [
+          "如果需要在模态框外部关闭（例如计时器或全局快捷键），请为每一级使用独立层级打开，并把该层级传给 `close()`。把层级名称集中在一个常量中，顺序更易读。"
+        ]
+      },
+      "byId": {
+        "title": "方案 3：按 ID 关闭特定模态框",
+        "body": [
+          "`useCurrentModal()` 还会返回 `modalId`。让模态框在 effect 中报告它，等拿到后再传给 `SnappyModal.close(value, modalId)`，即使同一层级有其他模态框，也只会关闭这一个。不要在拿到 ID 之前关闭：空 ID 会被解析为层级 `0`，从而关闭该层级的第一个模态框。"
+        ]
+      },
+      "outsideClick": {
+        "title": "多个模态框下的外部点击与滚动锁定",
+        "body": [
+          "外部点击会按 ID 关闭被点击区域所属的模态框，并以 `undefined` resolve 其 Promise。下方的模态框保持打开。",
+          "只要任一已打开的模态框设置了 `allowScroll: false`，页面就保持锁定。所有这类模态框关闭后，才会解除锁定并恢复滚动位置。"
+        ]
+      },
+      "state": {
+        "title": "响应栈的变化",
+        "body": [
+          "`useSnappyModalState()` 在栈变化时重新渲染。可用于在模态框打开期间暂停全局快捷键，或显示叠加的模态框数量。"
+        ]
+      },
+      "checklist": {
+        "title": "检查清单",
+        "body": ["如果一个页面可能同时打开多个模态框，请检查以下各项。"],
+        "items": [
+          "模态框组件通过 `useCurrentModal()` 关闭自己。",
+          "无参数的 `SnappyModal.close()` 只在最多只有一个模态框打开时使用。",
+          "从外部关闭的模态框拥有独立的 `layer`，或按 `modalId` 关闭。",
+          "`zIndex` 只用于让模态框位于非模态框页面元素之上，而不是用于排列模态框之间的顺序。"
+        ]
       }
     }
   }
