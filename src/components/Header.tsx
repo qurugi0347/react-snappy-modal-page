@@ -1,8 +1,8 @@
 import React from "react";
 import { styled } from "@linaria/react";
-import { useTranslation } from "../i18n/i18n";
+import { currentRoute, useTranslation } from "../i18n/i18n";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { docRoutes } from "../routes";
+import { docRoutes, localizedPath } from "../routes";
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -63,10 +63,11 @@ const GitHubButton = styled.a`
 
 export const Header: React.FC = () => {
   const { t } = useTranslation();
+  const home = localizedPath("/", currentRoute.language);
 
   return (
     <HeaderContainer>
-      <Logo href="/">
+      <Logo href={home}>
         <svg
           width="24"
           height="24"
@@ -86,10 +87,16 @@ export const Header: React.FC = () => {
         {t("header.logo")}
       </Logo>
       <Nav>
-        <NavLink href="/#features">{t("header.features")}</NavLink>
-        <NavLink href="/#examples">{t("header.examples")}</NavLink>
-        <NavLink href={docRoutes.gettingStarted}>{t("header.docs")}</NavLink>
-        <NavLink href={docRoutes.api}>{t("header.api")}</NavLink>
+        <NavLink href={home + "#features"}>{t("header.features")}</NavLink>
+        <NavLink href={home + "#examples"}>{t("header.examples")}</NavLink>
+        <NavLink
+          href={localizedPath(docRoutes.gettingStarted, currentRoute.language)}
+        >
+          {t("header.docs")}
+        </NavLink>
+        <NavLink href={localizedPath(docRoutes.api, currentRoute.language)}>
+          {t("header.api")}
+        </NavLink>
       </Nav>
       <RightContainer>
         <LanguageSwitcher />

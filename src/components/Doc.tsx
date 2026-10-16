@@ -1,7 +1,8 @@
 import React from "react";
 import { styled } from "@linaria/react";
 import { useTranslation } from "react-i18next";
-import { docRoutes, type DocPage } from "../routes";
+import { docRoutes, localizedPath, type DocPage } from "../routes";
+import { currentRoute } from "../i18n/i18n";
 import { Seo } from "./Seo";
 
 const pages = Object.keys(docRoutes) as DocPage[];
@@ -35,7 +36,7 @@ export function DocLayout({
         {pages.map(key => (
           <SideLink
             key={key}
-            href={docRoutes[key]}
+            href={localizedPath(docRoutes[key], currentRoute.language)}
             aria-current={key === page ? "page" : undefined}
           >
             {t(`docs.${key}.navTitle`)}
@@ -47,7 +48,9 @@ export function DocLayout({
         <Lead>{withCode(t(`docs.${page}.lead`))}</Lead>
         {children}
         {next && (
-          <NextLink href={docRoutes[next]}>
+          <NextLink
+            href={localizedPath(docRoutes[next], currentRoute.language)}
+          >
             <small>{t("docs.nav.next")}</small>
             {t(`docs.${next}.navTitle`)} →
           </NextLink>

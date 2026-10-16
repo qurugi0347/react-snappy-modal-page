@@ -2,6 +2,7 @@ import { styled } from "@linaria/react";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { docRoutes } from "./routes";
+import { currentRoute } from "./i18n/i18n";
 import { Home } from "./pages/Home";
 import { GettingStarted } from "./pages/GettingStarted";
 import { ApiReference } from "./pages/ApiReference";
@@ -54,8 +55,7 @@ const Main = styled.main`
 `;
 
 function App() {
-  const path = window.location.pathname.replace(/\/?$/, "/");
-  const Page = pages[path as keyof typeof pages] ?? Home;
+  const Page = pages[currentRoute.path as keyof typeof pages] ?? Home;
 
   return (
     <>

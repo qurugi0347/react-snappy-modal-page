@@ -1,8 +1,8 @@
 import React from "react";
 import { styled } from "@linaria/react";
-import { useTranslation } from "../i18n/i18n";
+import { currentRoute, useTranslation } from "../i18n/i18n";
 import { CodeBlock } from "./CodeBlock.tsx";
-import { docRoutes, type DocPage } from "../routes";
+import { docRoutes, localizedPath, type DocPage } from "../routes";
 
 export const Usage: React.FC = () => {
   const { t } = useTranslation();
@@ -92,7 +92,10 @@ const showCustomModal = async () => {
 
         <DocLinks>
           {(Object.keys(docRoutes) as DocPage[]).map(page => (
-            <DocLink key={page} href={docRoutes[page]}>
+            <DocLink
+              key={page}
+              href={localizedPath(docRoutes[page], currentRoute.language)}
+            >
               <strong>{t(`docs.${page}.navTitle`)} →</strong>
               <span>{t(`docs.${page}.summary`)}</span>
             </DocLink>
