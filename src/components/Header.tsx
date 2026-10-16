@@ -63,10 +63,11 @@ const GitHubButton = styled.a`
 
 export const Header: React.FC = () => {
   const { t } = useTranslation();
+  const home = localizedPath("/", currentRoute.language);
 
   return (
     <HeaderContainer>
-      <Logo href={localizedPath("/", currentRoute.language)}>
+      <Logo href={home}>
         <svg
           width="24"
           height="24"
@@ -86,12 +87,8 @@ export const Header: React.FC = () => {
         {t("header.logo")}
       </Logo>
       <Nav>
-        <NavLink href={localizedPath("/", currentRoute.language) + "#features"}>
-          {t("header.features")}
-        </NavLink>
-        <NavLink href={localizedPath("/", currentRoute.language) + "#examples"}>
-          {t("header.examples")}
-        </NavLink>
+        <NavLink href={home + "#features"}>{t("header.features")}</NavLink>
+        <NavLink href={home + "#examples"}>{t("header.examples")}</NavLink>
         <NavLink
           href={localizedPath(docRoutes.gettingStarted, currentRoute.language)}
         >
