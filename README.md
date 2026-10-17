@@ -32,12 +32,16 @@ page describes the `SoftwareApplication`, and documentation/guide pages emit a
 `TechArticle` plus a `BreadcrumbList`, all in the page language. Unknown paths
 emit no JSON-LD.
 
-### StackBlitz demo
+### StackBlitz demos
 
-The "Open in StackBlitz" buttons (home examples and Getting Started) post the
-Vite + React quick start defined in `src/demo/quickStart.ts` to StackBlitz via
-`@stackblitz/sdk`, which is loaded only on click. The Getting Started code
-blocks use the same source strings, so the docs and the demo stay in sync.
+"Open in StackBlitz" buttons on the Getting Started page and on each home
+example card (Alert, Confirm, Form) post a standalone Vite + React project to
+StackBlitz via `@stackblitz/sdk`, which is loaded only on click.
+`src/demo/stackblitz.ts` builds the shared scaffold, including a base
+stylesheet. `src/demo/quickStart.ts` and `src/demo/examples.ts` define the
+projects from the same source strings the site displays, so the docs and the
+demos stay in sync. Example demos ship the real modal files with a plain-CSS
+replacement for the site's Linaria `styles.tsx`.
 
 ### Build and verify
 

@@ -1,12 +1,12 @@
 import { styled } from "@linaria/react";
 import { useTranslation } from "react-i18next";
-import { openQuickStartInStackBlitz } from "../demo/quickStart";
+import { openInStackBlitz, type DemoProject } from "../demo/stackblitz";
 
-export function StackBlitzButton() {
+export function StackBlitzButton({ project }: { project: DemoProject }) {
   const { t } = useTranslation();
 
   return (
-    <Button type="button" onClick={openQuickStartInStackBlitz}>
+    <Button type="button" onClick={() => openInStackBlitz(project)}>
       <svg viewBox="0 0 28 28" width="16" height="16" aria-hidden="true">
         <path
           fill="currentColor"

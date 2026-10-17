@@ -1,7 +1,12 @@
 import { CodeBlock } from "../components/CodeBlock";
 import { Bullets, DocLayout, DocTable, Section } from "../components/Doc";
 import { StackBlitzButton } from "../components/StackBlitzButton";
-import { appCode, chooseColorCode, mainCode } from "../demo/quickStart";
+import {
+  appCode,
+  chooseColorCode,
+  mainCode,
+  quickStartProject,
+} from "../demo/quickStart";
 
 const k = "docs.gettingStarted";
 
@@ -31,7 +36,7 @@ pnpm add react-snappy-modal`}
 
       <Section k={`${k}.open`}>
         <CodeBlock filename="App.tsx" code={appCode} />
-        <StackBlitzButton />
+        <StackBlitzButton project={quickStartProject} />
       </Section>
 
       <Section k={`${k}.results`}>

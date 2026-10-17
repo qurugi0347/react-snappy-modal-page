@@ -4,7 +4,6 @@ import { AlertExample } from "./AlertExample.tsx";
 import { ConfirmExample } from "./ConfirmExample.tsx";
 import { FormExample } from "./FormExample.tsx";
 import { useTranslation } from "../../i18n/i18n";
-import { StackBlitzButton } from "../StackBlitzButton";
 
 export const Examples: React.FC = () => {
   const { t } = useTranslation();
@@ -12,9 +11,6 @@ export const Examples: React.FC = () => {
     <ExamplesContainer id="examples">
       <SectionTitle>{t("examples.title")}</SectionTitle>
       <SectionSubtitle>{t("examples.subtitle")}</SectionSubtitle>
-      <DemoAction>
-        <StackBlitzButton />
-      </DemoAction>
       <ExamplesWrapper>
         <AlertExample />
         <ConfirmExample />
@@ -43,12 +39,6 @@ const SectionSubtitle = styled.p`
   max-width: 600px;
   margin: 0 auto 3rem auto;
   text-align: center;
-`;
-
-const DemoAction = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: -1.5rem 0 3rem;
 `;
 
 const ExamplesWrapper = styled.div`

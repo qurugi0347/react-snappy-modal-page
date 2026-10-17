@@ -46,3 +46,9 @@ export const ExampleButton = styled.button`
     background-color: #374151;
   }
 `;
+
+export const ExampleActions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+`;
