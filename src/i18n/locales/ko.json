@@ -51,6 +51,9 @@
       "description": "동시 렌더링을 포함하여 최신 버전의 React와 완벽하게 작동하도록 구축되었습니다."
     }
   },
+  "demo": {
+    "openStackBlitz": "StackBlitz에서 바로 실행하기"
+  },
   "examples": {
     "title": "예제",
     "subtitle": "이러한 일반적인 모달 패턴으로 React Snappy Modal의 실제 작동을 확인해보세요",

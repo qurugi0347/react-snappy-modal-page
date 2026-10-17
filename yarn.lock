@@ -2090,6 +2090,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stackblitz/sdk@npm:^1.11.1":
+  version: 1.11.1
+  resolution: "@stackblitz/sdk@npm:1.11.1"
+  checksum: a2563744b409d0d23a3e2f0614ea772080c0303044dbde50622d1ccb84f16401359024ca9a909bac31b1723694f74d008807fde8356a310d333d46d139cac893
+  languageName: node
+  linkType: hard
+
 "@tootallnate/quickjs-emscripten@npm:^0.23.0":
   version: 0.23.0
   resolution: "@tootallnate/quickjs-emscripten@npm:0.23.0"
@@ -5745,6 +5752,7 @@ __metadata:
     "@linaria/vite": ^5.0.4
     "@prerenderer/renderer-puppeteer": ^1.2.4
     "@prerenderer/rollup-plugin": ^0.3.12
+    "@stackblitz/sdk": ^1.11.1
     "@types/react": ^19.0.10
     "@types/react-copy-to-clipboard": ^5.0.7
     "@types/react-dom": ^19.0.4

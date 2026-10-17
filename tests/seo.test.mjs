@@ -68,6 +68,7 @@ function assertPage(document, path, language) {
       .sort(),
   );
   assert.deepEqual(document.robots, []);
+  assertStructuredData(document.jsonLd, path, language, content);
   assert.deepEqual(document.headings, [content.title]);
   assert.ok(
     document.body.includes(content.paragraph.replaceAll("`", "")),
@@ -87,6 +88,51 @@ function assertPage(document, path, language) {
     expectedAlternates(path)
       .slice(0, 3)
       .map(([language, url]) => [language, new URL(url).pathname]),
+  );
+}
+
+function assertStructuredData(jsonLd, path, language, content) {
+  assert.equal(jsonLd.length, 1, "Expected exactly one JSON-LD script");
+  const data = JSON.parse(jsonLd[0]);
+  assert.equal(data["@context"], "https://schema.org");
+  const nodes = Object.fromEntries(
+    data["@graph"].map(node => [node["@type"], node]),
+  );
+  const url = siteUrl + localizedPath(path, language);
+  assert.equal(nodes.WebSite.url, siteUrl + "/");
+  const page = Object.keys(docRoutes).find(key => docRoutes[key] === path);
+  if (!page) {
+    assert.deepEqual(Object.keys(nodes).sort(), [
+      "SoftwareApplication",
+      "WebSite",
+    ]);
+    assert.equal(nodes.SoftwareApplication.url, url);
+    assert.equal(nodes.SoftwareApplication.inLanguage, language);
+    assert.equal(
+      nodes.SoftwareApplication.description,
+      content.meta.description,
+    );
+    return;
+  }
+  assert.deepEqual(Object.keys(nodes).sort(), [
+    "BreadcrumbList",
+    "TechArticle",
+    "WebSite",
+  ]);
+  assert.equal(nodes.TechArticle.url, url);
+  assert.equal(nodes.TechArticle.headline, content.meta.title);
+  assert.equal(nodes.TechArticle.description, content.meta.description);
+  assert.equal(nodes.TechArticle.inLanguage, language);
+  assert.deepEqual(
+    nodes.BreadcrumbList.itemListElement.map(item => [
+      item.position,
+      item.name,
+      item.item,
+    ]),
+    [
+      [1, "React Snappy Modal", siteUrl + localizedPath("/", language)],
+      [2, content.navTitle, url],
+    ],
   );
 }
 
@@ -116,6 +162,7 @@ function extractDocument(html) {
     ogLocales: values('meta[property="og:locale"]', "content"),
     ogAlternates: values('meta[property="og:locale:alternate"]', "content"),
     robots: values('meta[name="robots"]', "content"),
+    jsonLd: values('script[type="application/ld+json"]'),
     headings: values("h1"),
     body: doc.body.textContent.replace(/\s+/g, " ").trim(),
     internalLinks: values('a[href^="/"]:not([hreflang])', "href"),
@@ -314,6 +361,7 @@ describe("GIVEN: a production build", () => {
       assert.equal(document.language, language);
       assert.deepEqual(document.robots, ["noindex, follow"]);
       assert.deepEqual(document.alternates, []);
+      assert.deepEqual(document.jsonLd, []);
       assert.deepEqual(document.canonicals, [
         siteUrl + localizedPath("/", language),
       ]);

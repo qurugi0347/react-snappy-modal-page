@@ -27,6 +27,18 @@ Missing trailing slashes are recognized with slash-terminated canonicals.
 Unknown paths retain the home fallback but receive `noindex, follow` and no
 hreflang links. This is a client-side safeguard, not an HTTP 404 or CDN redirect.
 
+Each indexable page also emits one JSON-LD `@graph` from `Seo.tsx`: the home
+page describes the `SoftwareApplication`, and documentation/guide pages emit a
+`TechArticle` plus a `BreadcrumbList`, all in the page language. Unknown paths
+emit no JSON-LD.
+
+### StackBlitz demo
+
+The "Open in StackBlitz" buttons (home examples and Getting Started) post the
+Vite + React quick start defined in `src/demo/quickStart.ts` to StackBlitz via
+`@stackblitz/sdk`, which is loaded only on click. The Getting Started code
+blocks use the same source strings, so the docs and the demo stay in sync.
+
 ### Build and verify
 
 ```sh
