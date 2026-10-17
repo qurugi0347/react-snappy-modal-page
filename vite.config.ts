@@ -55,8 +55,15 @@ export default defineConfig({
       routes,
       renderer: "@prerenderer/renderer-puppeteer",
       rendererOptions: {
-        // Wait until react-helmet-async has written the page head
-        renderAfterElementExists: 'link[rel="canonical"][data-rh]',
+        maxConcurrentRoutes: 4,
+        // Wait until react-helmet-async has written the page head.
+        // Not using renderAfterElementExists: it races against a never-resolving
+        // page.evaluate promise that Chrome may GC ("Promise was collected").
+        pageHandler: async page => {
+          await page.waitForSelector('link[rel="canonical"][data-rh]', {
+            timeout: 30_000,
+          });
+        },
         // Render English regardless of the build machine's locale
         pageSetup: page =>
           page.evaluateOnNewDocument(() =>
