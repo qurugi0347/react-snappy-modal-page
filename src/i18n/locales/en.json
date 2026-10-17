@@ -51,6 +51,9 @@
       "description": "Built to work perfectly with the latest versions of React, including concurrent rendering."
     }
   },
+  "demo": {
+    "openStackBlitz": "Open in StackBlitz"
+  },
   "examples": {
     "title": "Examples",
     "subtitle": "See React Snappy Modal in action with these common modal patterns",

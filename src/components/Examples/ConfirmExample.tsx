@@ -1,6 +1,7 @@
 import { CodeBlock } from "../CodeBlock.tsx";
 import React from "react";
 import {
+  ExampleActions,
   ExampleButton,
   ExampleCard,
   ExampleDescription,
@@ -12,6 +13,8 @@ import { useTranslation } from "../../i18n/i18n";
 import { ConfirmModal } from "./Modals/Confirm";
 import confirmCode from "./Modals/Confirm.tsx?raw";
 import { removeImportLines } from "./util.tsx";
+import { StackBlitzButton } from "../StackBlitzButton";
+import { confirmProject, showConfirmCode } from "../../demo/examples";
 
 export function ConfirmExample() {
   const { t } = useTranslation();
@@ -27,24 +30,14 @@ export function ConfirmExample() {
       <ExampleDescription>
         <ExampleTitle>{t("examples.confirmModal.title")}</ExampleTitle>
         <ExampleText>{t("examples.confirmModal.description")}</ExampleText>
-        <ExampleButton onClick={showConfirm}>
-          {t("examples.confirmModal.button")}
-        </ExampleButton>
+        <ExampleActions>
+          <ExampleButton onClick={showConfirm}>
+            {t("examples.confirmModal.button")}
+          </ExampleButton>
+          <StackBlitzButton project={confirmProject} />
+        </ExampleActions>
       </ExampleDescription>
       <CodeBlock code={removeImportLines(confirmCode + showConfirmCode)} />
     </ExampleCard>
   );
 }
-
-const showConfirmCode = `
-const showConfirm = async () => {
-  const result = await SnappyModal.show(<ConfirmModal />);
-  alert("User confirmed:" + result);
-
-  if (result) {
-    // User confirmed
-  } else {
-    // User cancelled
-  }
-};
-`;

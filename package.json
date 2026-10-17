@@ -18,6 +18,7 @@
     "@linaria/core": "^6.3.0",
     "@linaria/react": "^6.3.0",
     "@linaria/vite": "^5.0.4",
+    "@stackblitz/sdk": "^1.11.1",
     "i18next": "^24.2.3",
     "linaria": "^6.3.0",
     "react": "^19.0.0",

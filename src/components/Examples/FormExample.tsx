@@ -1,6 +1,7 @@
 import { CodeBlock } from "../CodeBlock.tsx";
 import React, { useState } from "react";
 import {
+  ExampleActions,
   ExampleButton,
   ExampleCard,
   ExampleDescription,
@@ -12,6 +13,8 @@ import { useTranslation } from "../../i18n/i18n";
 import { FormModal } from "./Modals/Form";
 import formCode from "./Modals/Form.tsx?raw";
 import { removeImportLines } from "./util.tsx";
+import { StackBlitzButton } from "../StackBlitzButton";
+import { formProject, showFormCode } from "../../demo/examples";
 
 export function FormExample() {
   const { t } = useTranslation();
@@ -31,21 +34,14 @@ export function FormExample() {
       <ExampleDescription>
         <ExampleTitle>{t("examples.formModal.title")}</ExampleTitle>
         <ExampleText>{t("examples.formModal.description")}</ExampleText>
-        <ExampleButton onClick={showForm}>
-          {t("examples.formModal.button")}
-        </ExampleButton>
+        <ExampleActions>
+          <ExampleButton onClick={showForm}>
+            {t("examples.formModal.button")}
+          </ExampleButton>
+          <StackBlitzButton project={formProject} />
+        </ExampleActions>
       </ExampleDescription>
       <CodeBlock code={removeImportLines(formCode + showFormCode)} />
     </ExampleCard>
   );
 }
-
-const showFormCode = `
-const showForm = async () => {
-  const result = await SnappyModal.show(<FormModal />);
-  
-  if (result) {
-    alert("Submitted name:" + result);
-  }
-};
-`;

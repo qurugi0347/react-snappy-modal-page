@@ -31,6 +31,7 @@ export function DocLayout({
         path={docRoutes[page]}
         title={t(`docs.${page}.meta.title`)}
         description={t(`docs.${page}.meta.description`)}
+        breadcrumb={t(`docs.${page}.navTitle`)}
       />
       <Sidebar aria-label={t("docs.nav.label")}>
         {pages.map(key => (
